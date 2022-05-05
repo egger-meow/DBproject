@@ -35,21 +35,23 @@ try{
     $row = $stmt->fetch();
     $fuck = hash('sha256',$row['salt'].$pwd);
     if ($row['password']==hash('sha256',$row['salt'].$pwd)){
-    //if ($row['password']==$pwd){
+    
       $_SESSION['Authenticated']=true;
-      $_SESSION['account'] = $row['account'];
-      $_SESSION['username']= $row['username'];
+      $_SESSION['curUser']['account'] = $row['account'];
+      $_SESSION['curUser']['username']= $row['username'];
+      $_SESSION['curUser']['username']= $row['username'];
+
       $us = $row['username']; 
         
     }
     else{    
-      throw new Exception('Login failed.');
+      throw new Exception('wrong password.');
 
     }
       
   }
   else
-    throw new Exception('account not exist');
+    throw new Exception('account not exist.');
 
   }
 
