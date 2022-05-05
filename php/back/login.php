@@ -38,9 +38,17 @@ try{
     
       $_SESSION['Authenticated']=true;
       $_SESSION['curUser']['account'] = $row['account'];
-      $_SESSION['curUser']['username']= $row['username'];
-      $_SESSION['curUser']['username']= $row['username'];
+      $_SESSION['curUser']['username'] = $row['username'];
+      $_SESSION['curUser']['password'] = $pwd;
 
+      $geoloca = $row['ST_AsText(location)'];
+      $geoloca = substr($geoloca, 6, strlen($geoloca)-6-1);
+      $loca = explode(" ",$geoloca);
+
+      $_SESSION['curUser']['latitude'] = $loca[0];
+      $_SESSION['curUser']['longitude'] = $loca[1];
+      $_SESSION['curUser']['balance'] = $row['balance'];
+      $_SESSION['curUser']['identity'] = $row['identity'];
       $us = $row['username']; 
         
     }
