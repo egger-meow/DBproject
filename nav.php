@@ -292,7 +292,7 @@
                         <input class="form-control" id="ex4" type="text">
                     </div>
                 </div>
-
+                <div id="nogood" style="color :red "></div>
 
                 <div class="row" style=" margin-top: 25px;">
 
@@ -303,10 +303,17 @@
                     </div>
                     <div class=" col-xs-3">
 
-                        <button style=" margin-top: 15px;" type="button" class="btn btn-primary">Add</button>
+                        <button id="fuck" style=" margin-top: 15px;" type="button" class="btn btn-primary">Add</button>
                     </div>
                 </div>
             </div>
+            <script>
+                $("#fuck").click(function(){
+                    if($("#myFile").value()==""||$("#ex3").value()==""||$("#ex7").value()==""||$("#ex4").value()==""){
+                        
+                    }
+                }
+            </script>
 
             <div class="row">
                 <div class="  col-xs-8">
