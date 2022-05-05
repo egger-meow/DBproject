@@ -130,7 +130,7 @@ require "php/shit/head.php";
 				$("#phonenumber").change(function() {
 					
 					if((!/^[0-9]+$/.test($(this).val())||$(this).val().length!=10)&&$(this).val()!=''){
-							$("#invpnum").html('phone number must be 10 digit numbers!');
+							$("#invpnum").html('phone number must be 10 digit numbers!').slideDown();
 						}
 						else{
 							$("#invpnum").html('');
@@ -140,7 +140,7 @@ require "php/shit/head.php";
 				$("#longitude").change(function() {
 					
 					if(!isFloat($(this).val())&&$(this).val()!=''){
-							$("#invlon").html('illegal longitude!');
+							$("#invlon").html('illegal longitude!').slideDown();
 						}
 						else{
 							$("#invlon").html('');
@@ -150,7 +150,7 @@ require "php/shit/head.php";
 				$("#latitude").change(function() {
 					
 					if(!isFloat($(this).val())&&$(this).val()!=''){
-							$("#invlat").html('illegal latitude!');
+							$("#invlat").html('illegal latitude!').slideDown();
 						}
 						else{
 							$("#invlat").html('');
@@ -160,7 +160,7 @@ require "php/shit/head.php";
 				$("#password").change(function() {
 					
 					if(!/^[a-zA-Z]+$/.test($(this).val())&&$(this).val()!=''){
-							$("#invpass").html('password can only have letters!');
+							$("#invpass").html('password can only have letters!').slideDown();
 						}
 						else{
 							$("#invpass").html('');

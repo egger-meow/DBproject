@@ -59,7 +59,13 @@ catch(Exception $e){
   session_unset(); 
   session_destroy(); 
 }
-
+echo json_encode(
+  array(
+      'ok'       => $ok,
+      'msg'      => $msg,
+      'username' => $us 
+  )
+);
 
 
 
