@@ -29,21 +29,26 @@ try{
   $conn = new PDO('mysql:host=localhost;dbname=acdb', $dbusername, $dbpassword);
 # set the PDO error mode to exception
   $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  $stmt=$conn->prepare("select * from users where account=:username");
-  $stmt->execute(array('username' => $account));
+  $stmt=$conn->prepare("select * from users where account=:Acc");
+  $stmt->execute(array('Acc' => $account));
   if ($stmt->rowCount()==1){
     $row = $stmt->fetch();
     $fuck = hash('sha256',$row['salt'].$pwd);
     if ($row['password']==hash('sha256',$row['salt'].$pwd)){
     
       $_SESSION['Authenticated']=true;
+     
       $_SESSION['curUser']['account'] = $row['account'];
       $_SESSION['curUser']['username'] = $row['username'];
+      $_SESSION['curUser']['phoneNum'] = $row['phoneNum'];
       $_SESSION['curUser']['password'] = $pwd;
 
-      $geoloca = $row['ST_AsText(location)'];
-      $geoloca = substr($geoloca, 6, strlen($geoloca)-6-1);
-      $loca = explode(" ",$geoloca);
+      $stmt=$conn->prepare("select ST_AsText(location) from users where account=:acc");
+      $stmt->execute(array('acc' => $account));
+
+      $geoloca = $stmt->fetch()["ST_AsText(location)"];
+      $g = substr($geoloca, 6, strlen($geoloca)-6-1);
+      $loca = explode(" ",$g);
 
       $_SESSION['curUser']['latitude'] = $loca[0];
       $_SESSION['curUser']['longitude'] = $loca[1];
@@ -73,7 +78,7 @@ echo json_encode(
   array(
       'ok'       => $ok,
       'msg'      => $msg,
-      'username' => $us 
+      'us'       =>$us
   )
 );
 

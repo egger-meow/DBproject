@@ -16,7 +16,8 @@
 
 <?php require "php/shit/head2.php"; ?>
 <?php
-    //session_start();
+    session_start();
+    /*
     $account = $_SESSION['account'];
     $conn = new PDO('mysql:host=localhost;dbname=acdb', 'root', '');
     $stmt=$conn->prepare("select * from users where account=:acc");
@@ -28,6 +29,8 @@
     $geoloca = $stmt->fetch()["ST_AsText(location)"];
     $geoloca = substr($geoloca, 6, strlen($geoloca)-6-1);
     $loca = explode(" ",$geoloca);
+    */
+    
 ?>
 
 <nav class="navbar navbar-inverse">
@@ -53,7 +56,7 @@
             <div class="row">
                 <div class="col-xs-12">
                 
-                    Accouont: <?php echo $row["account"]; ?>, user: <?php echo $row["username"]; ?>, PhoneNumber: <?php echo $row["phoneNum"]; ?>, location: <?php echo $loca[0],',',$loca[1]; ?>
+                    Accouont: <?php echo $_SESSION['curUser']['account']; ?>, user: <?php echo $_SESSION['curUser']['username'];?>, PhoneNumber: <?php echo $_SESSION['curUser']['phoneNum']; ?>, location: <?php echo $_SESSION['curUser']['latitude'],',',$_SESSION['curUser']['longitude']; ?>
 
                     <button type="button " style="margin-left: 5px;" class=" btn btn-info " data-toggle="modal" data-target="#location">edit location</button>
                     <!--  -->
@@ -89,7 +92,7 @@
                     
                     
                     <!--  -->
-                    walletbalance: <?php echo $row["balance"]; ?>
+                    walletbalance: <?php echo $_SESSION['curUser']['balance']; ?>
                     <!-- Modal -->
                     <button type="button " style="margin-left: 5px;" class=" btn btn-info " data-toggle="modal" data-target="#myModal">Add value</button>
                     <div class="modal fade" id="myModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">

@@ -54,9 +54,9 @@ require "php/shit/head.php"
                             let responseObject = null;
                             try {
                                 responseObject = JSON.parse(request.responseText);
-                                } catch (e) {
-                                    console.error('Could not parse JSON!');
-                                }
+                            } catch (e) {
+                                console.error(e.message);
+                            }
 
                             if (responseObject) {
                                 handleResponse(responseObject);
@@ -71,8 +71,8 @@ require "php/shit/head.php"
 
                     function handleResponse (responseObject) {
                         if (responseObject.ok) {
-                            alert("hello, "+responseObject.username);
-                            window.location.replace("nav.php");
+                            alert("hello ," + responseObject.us)
+                           window.location.replace("nav.php");
                         } else {
                             console.log("haha");
 
