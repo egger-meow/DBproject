@@ -285,6 +285,7 @@
 
             </div>
         </div>
+        <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
         <div id="menu1" class="tab-pane fade">
         
             <h3> Start a business </h3>
@@ -293,7 +294,7 @@
                 
                 if(<?php echo $_SESSION['curUser']['identity']?>){
                     //alert("shop register success!");
-                    document.getElementById('shopResSubmit').disabled = true ;
+                    //document.getElementById('shopResSubmit').disabled = true ;
                 }
 
                 $(document).ready(function() {
@@ -316,7 +317,7 @@
                 function checkResShop(){
                     if(<?php echo $_SESSION['ok']; ?>){
                         alert("shop register success!");
-                        document.getElementById('shopResSubmit').disabled = true ;
+                        //document.getElementById('shopResSubmit').disabled = true ;
                     }
                 }
             </script>
@@ -357,22 +358,22 @@
             <hr>
             <h3>ADD</h3>
 
-            <div class="form-group ">
+            <form class="form-group " target="dummyframe" method="post" action="php/back/uploadProduct.php">
                 <div class="row">
 
                     <div class="col-xs-6">
                         <label for="ex3">meal name</label>
-                        <input class="form-control" id="ex3" type="text">
+                        <input class="form-control" id="ex3" type="text" name="pname"  required>
                     </div>
                 </div>
                 <div class="row" style=" margin-top: 15px;">
                     <div class="col-xs-3">
                         <label for="ex7">price</label>
-                        <input class="form-control" id="ex7" type="text">
+                        <input class="form-control" id="ex7" name="price" pattern="^[0-9]+$"type="text" required>
                     </div>
                     <div class="col-xs-3">
                         <label for="ex4">quantity</label>
-                        <input class="form-control" id="ex4" type="text">
+                        <input class="form-control" id="ex4"  name="quantity" pattern="^[0-9]+$"type="text" required>
                     </div>
                 </div>
 
@@ -383,57 +384,25 @@
 
                     <div class=" col-xs-3">
                         <label for="ex12">上傳圖片</label>
-                        <input id="myFile" type="file" name="myFile" multiple class="file-loading">
+                        <input id="myFile" type="file" name="myFile" multiple class="file-loading" required>
 
                     </div>
                     <div class=" col-xs-3">
 
-                        <button id="fuck" style=" margin-top: 15px;" type="button" class="btn btn-primary">Add</button>
+                        <button id="fuck" style=" margin-top: 15px;" type="submit" class="btn btn-primary">Add</button>
                     </div>
                 </div>
-            </div>
+            </form>
+
             <script>
-                $("#fuck").click(function(){
-                    if(!$("#myFile").val()||!$("#ex3").val()||!$("#ex4").val()||!$("#ex7").val()){
-                        $("#notfull").html("please fill all imformation!")      
-                        return;
-                    }
-                    else if(!/^[0-9]+$/.test($("#ex4").val())||!/^[0-9]+$/.test($("#ex7").val())){
-                        $("#notfull").html("illegal input!")    
-                        return;
-                    }
-                    else{
-                        $("#notfull").html("")
-                    }
-
-                    const request = new XMLHttpRequest();
-	
-					request.onload = () => {
-						let responseObject = null;
-						try {
-							responseObject = JSON.parse(request.responseText);
-						} catch (e) {
-							console.error(request.responseText);
-						}
-
-						if (responseObject) {
-							
-							handleResponse(responseObject);
-						}
-
-					};
-					const requestData = `pname=${$("#ex3").val()}&price=${$("#ex7").val()}&quantity=${$("#ex4").val()}`;
-					request.open('post', 'php/back/uploadProduct.php');
-					request.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
-					request.send(requestData);
-                });
-
+               
                 function handleResponse (responseObject) {
                     if (responseObject.msg=="") {
                         alert("add product success!" )
+                        window.location.replace("nav.php#menu1");
                        
                     } else {
-                        alert("add product failed! error: ",responseObject.msg)
+                        alert(responseObject.msg)
                     }
                 }
             </script>

@@ -13,10 +13,10 @@ try {
   $productName = $_REQUEST['pname'] ;
   $price       = $_REQUEST['price'] ;
   $quantity    = $_REQUEST['quantity'] ;
+  //$imagePath   = $_REQUEST['myFile'] ;
 
-
-
-  
+  print_r($_FILES);
+ // exit();
   $conn = new PDO("mysql:host=$dbservername; dbname=$dbname", 
   $dbusername, $dbpassword);
   # set the PDO error mode to exception
@@ -27,11 +27,12 @@ try {
     $stmt->execute(array('user' => $_SESSION['curUser']['UID']));
     $SID = $stmt->fetch()[0];
 
-    $stmt=$conn->prepare("select * from products where name=$productName and SID=$SID");
+    $stmt=$conn->prepare("select * from products where name = '$productName' and SID = $SID");
     $stmt->execute();
     if ($stmt->rowCount()!=0){
       $q = $stmt->fetch()['quantity'];
-      $stmt=$conn->prepare("update products SET price = $price, quantity = $quantity+$q where name=$productName and SID=$SID");
+     
+      $stmt=$conn->prepare("update products SET price = $price, quantity = $quantity+$q  where name = '$productName' and SID = $SID ");
       $stmt->execute();
     }
     else{
@@ -44,19 +45,43 @@ try {
         $k = $s ->fetch();
       }  
       $PID = (string)((int)$k[0] + 1);
-      $stmt=$conn->prepare("insert into product values ('$PID', '$SID' ,'$productName' ,'$price' ,'$quantity')");       
+      $stmt=$conn->prepare("insert into products values ('$PID', '$SID' ,'$productName' ,'$price' ,'$quantity');");       
       $stmt->execute();
     }
+    echo <<<EOT
+        <!DOCTYPE html>
+        <html>
+        <body>
+        <script>
+        alert("add product success!" )
+ 
+        </script> </body> </html>
+    EOT;
+    
+    exit();
   }
   catch(PDOException $e){
-      throw $e;
+    $msg = $e->getMessage();
+    echo <<<EOT
+        <!DOCTYPE html>
+        <html>
+        <body>
+        <script>
+        alert("add product failed! error: $msg" )
+
+        </script> </body> </html>
+    EOT;
   }
 }
 catch(Exception $e){
-  $msg=$e->getMessage();
+  $msg = $e->getMessage();
+    echo <<<EOT
+        <!DOCTYPE html>
+        <html>
+        <body>
+        <script>
+        alert("add product failed! error: $msg" )
+ 
+        </script> </body> </html>
+    EOT;
 }
-echo json_encode(
-  array(
-      'msg'      => $msg
-  )
-);
