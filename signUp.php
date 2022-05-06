@@ -170,8 +170,7 @@ require "php/shit/head.php";
 			
 				$("#fuck").click(function() {
 					const request = new XMLHttpRequest();
-					
-					
+	
 					request.onload = () => {
 						let responseObject = null;
 						try {

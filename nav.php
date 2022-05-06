@@ -289,33 +289,65 @@
         
             <h3> Start a business </h3>
 
-            <form action="php/nav/shopRegister.php" class="fh5co-form animate-box" data-animate-effect="fadeIn" method="post"  target="nm_iframe">
+            <script>
+                
+                if(<?php echo $_SESSION['curUser']['identity']?>){
+                    //alert("shop register success!");
+                    document.getElementById('shopResSubmit').disabled = true ;
+                }
+
+                $(document).ready(function() {
+                    $("#shopResForm").submit( function(event) {
+                        event.preventDefault();
+                        var shopname = $("#exshopname").val();
+                        var category = $("#excategory").val();
+                        var latitude = $("#exlatitude").val();
+                        var longitude = $("#exlongitude").val();
+                        $("#shopResErrMsg").load("php/nV/shopRegister.php", {
+                            shopname :shopname,
+                            category :category,
+                            latitude :latitude,
+                            longitude :longitude
+                        });
+                        checkResShop();
+                    });   
+                });
+
+                function checkResShop(){
+                    if(<?php echo $_SESSION['ok']; ?>){
+                        alert("shop register success!");
+                        document.getElementById('shopResSubmit').disabled = true ;
+                    }
+                }
+            </script>
+
+            <form action="php/nav/shopRegister.php" class="fh5co-form animate-box" data-animate-effect="fadeIn" method="post"  target="nm_iframe" id="shopResForm">
 
             <div class="form-group ">
                 <div class="row">
                     <div class="col-xs-2">
                         <label for="ex5">shop name</label>
-                        <input name=shopname class="form-control" id="ex5" placeholder="macdonald" type="text" required="required">
+                        <input name="shopname" class="form-control" id="exshopname" placeholder="macdonald" type="text" required="required">
                     </div>
                     <div class="col-xs-2">
                         <label for="ex5">shop category</label>
-                        <input name=category class="form-control" id="ex5" placeholder="fast food" type="text" required="required">
+                        <input name="category" class="form-control" id="excategory" placeholder="fast food" type="text" required="required">
                     </div>
                     <div class="col-xs-2">
                         <label for="ex6">latitude</label>
-                        <input name=latitude class="form-control" id="ex6" placeholder="121.00028167648875" type="text" required="required">
+                        <input name="latitude" class="form-control" id="exlatitude" placeholder="121.00028167648875" type="text" required="required">
                     </div>
                     <div class="col-xs-2">
                         <label for="ex8">longitude</label>
-                        <input name=longitude class="form-control" id="ex8" placeholder="24.78472733371133" type="text" required="required">
+                        <input name="longitude" class="form-control" id="exlongitude" placeholder="24.78472733371133" type="text" required="required">
                     </div>
                 </div>
             </div>
-
-
+            <p id = "shopResErrMsg">
+            </p>
             <div class=" row" style=" margin-top: 25px;">
                 <div class=" col-xs-3">
-                    <input type="submit" value="register" class="btn btn-primary">
+                    <input type="submit" value="register" class="btn btn-primary" id="shopResSubmit">
                     <!-- <button type="button" class="btn btn-primary">register</button> -->
                 </div>
             </div>
@@ -362,13 +394,48 @@
             </div>
             <script>
                 $("#fuck").click(function(){
-                    if($("#myFile").value()==""||$("#ex3").value()==""||$("#ex7").value()==""||$("#ex4").value()==""){
-                        $("#notfull").html("please fill all imformation!").slideDown
+                    if(!$("#myFile").val()||!$("#ex3").val()||!$("#ex4").val()||!$("#ex7").val()){
+                        $("#notfull").html("please fill all imformation!")      
+                        return;
+                    }
+                    else if(!/^[0-9]+$/.test($("#ex4").val())||!/^[0-9]+$/.test($("#ex7").val())){
+                        $("#notfull").html("illegal input!")    
+                        return;
                     }
                     else{
                         $("#notfull").html("")
                     }
+
+                    const request = new XMLHttpRequest();
+	
+					request.onload = () => {
+						let responseObject = null;
+						try {
+							responseObject = JSON.parse(request.responseText);
+						} catch (e) {
+							console.error(request.responseText);
+						}
+
+						if (responseObject) {
+							
+							handleResponse(responseObject);
+						}
+
+					};
+					const requestData = `pname=${$("#ex3").val()}&price=${$("#ex7").val()}&quantity=${$("#ex4").val()}`;
+					request.open('post', 'php/back/uploadProduct.php');
+					request.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+					request.send(requestData);
                 });
+
+                function handleResponse (responseObject) {
+                    if (responseObject.msg=="") {
+                        alert("add product success!" )
+                       
+                    } else {
+                        alert("add product failed! error: ",responseObject.msg)
+                    }
+                }
             </script>
 
             <div class="row">

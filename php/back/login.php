@@ -39,6 +39,7 @@ try{
       $_SESSION['Authenticated']=true;
      
       $_SESSION['curUser']['account'] = $row['account'];
+      $_SESSION['curUser']['UID'] = $row['UID'];
       $_SESSION['curUser']['username'] = $row['username'];
       $_SESSION['curUser']['phoneNum'] = $row['phoneNum'];
       $_SESSION['curUser']['password'] = $pwd;
