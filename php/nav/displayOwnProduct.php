@@ -1,4 +1,52 @@
-<tr>
+<?php
+
+$dbservername='localhost';
+$dbname='acdb';
+$dbusername='jonhou1203';
+$dbpassword='pass9704';
+session_start();
+  $conn = new PDO("mysql:host=$dbservername; dbname=$dbname", 
+  $dbusername, $dbpassword);
+  # set the PDO error mode to exception
+  $conn->setAttribute(PDO::ATTR_ERRMODE, 
+  PDO::ERRMODE_EXCEPTION);
+
+  try{
+    $s=$conn->prepare("select * from products where SID =:sid");
+    $s->execute(array('Acc' => $$_SESSION['curUser']['SID']));
+    foreach($s->fetchAll() as $product){
+
+
+
+    }
+
+   
+
+
+
+    $stmt=$conn->prepare("select SID from shops where UID=:user");
+    $stmt->execute(array('user' => $_SESSION['curUser']['UID']));
+    $SID = $stmt->fetch()[0];
+
+    $stmt=$conn->prepare("select * from products where name = '$productName' and SID = $SID");
+    $stmt->execute();
+    if ($stmt->rowCount()!=0){
+      $PID = $stmt->fetch()['PID'];
+      $q = $stmt->fetch()['quantity'];
+
+      $sql="insert INTO productimage values ($PICID,$PID,'$fileContents','$imgType')";
+      $stmt=$conn->prepare("update products SET price = $price, quantity = $quantity+$q  where name = '$productName' and SID = $SID ");
+      $stmt->execute();
+      $stmt=$conn->prepare($sql);
+      $stmt->execute();
+    }
+  }
+
+
+?>
+
+
+                            <tr>
                                 <th scope="row">1</th>
                                 <td><img src="Picture/1.jpg" with="50" heigh="10" alt="Hamburger"></td>
                                 <td>Hamburger</td>

@@ -57,6 +57,11 @@ try{
       $_SESSION['curUser']['identity'] = $row['identity'];
       $us = $row['username']; 
         
+      if($row['identity']){
+        $stmt=$conn->prepare("select SID from shops where UID=:uid");
+        $stmt->execute(array('uid' => $row['UID']));
+        $_SESSION['curUser']['SID'] =  $stmt->fetch()['SID'];
+      }
     }
     else{    
       throw new Exception('wrong password.');
