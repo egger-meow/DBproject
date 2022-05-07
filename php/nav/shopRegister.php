@@ -57,7 +57,7 @@ $dbpassword='';
         $_SESSION['ok'] = false;
         $K = $e->getMessage();
         echo "<span style='color:red'>  $k</span>";
-    }
+ }
 /*
     echo <<<EOT
         <!DOCTYPE html>

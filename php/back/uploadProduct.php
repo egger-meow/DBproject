@@ -74,7 +74,7 @@ try {
         $k = $s ->fetch();
       }  
       $PID = (string)((int)$k[0] + 1);
-      $stmt=$conn->prepare("insert into products values ('$PID', '$SID' ,'$productName' ,'$price' ,'$quantity');");       
+      $stmt=$conn->prepare("insert into products values ($PID, $SID ,'$productName' ,$price ,$quantity);");       
       $stmt->execute();
       $stmt=$conn->prepare("insert INTO productimage values ($PICID,$PID,'$fileContents','$imgType');");
       $stmt->execute();
@@ -85,7 +85,7 @@ try {
         <body>
         <script>
         alert("add product success!" )
- 
+        //window.location.replace(../../nav.php#menu1)
         </script> </body> </html>
     EOT;
     

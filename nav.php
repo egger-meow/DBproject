@@ -285,7 +285,7 @@
 
             </div>
         </div>
-        <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+        
         <div id="menu1" class="tab-pane fade">
         
             <h3> Start a business </h3>
@@ -314,12 +314,7 @@
                     });   
                 });
 
-                function checkResShop(){
-                    if(<?php echo $_SESSION['ok']; ?>){
-                        alert("shop register success!");
-                        //document.getElementById('shopResSubmit').disabled = true ;
-                    }
-                }
+                
             </script>
 
             <form action="php/nav/shopRegister.php" class="fh5co-form animate-box" data-animate-effect="fadeIn" method="post"  target="nm_iframe" id="shopResForm">
@@ -423,14 +418,13 @@
                             </tr>
                         </thead>
                         <tbody>
+                        <iframe name="dummyframe" id="dummyframe" style="display: none;"><?php require "php/nav/displayOwnProduct.php"; ?></iframe>
                         <?php require "php/nav/displayOwnProduct.php"; ?>
                         </tbody>
                     </table>
                 </div>
 
             </div>
-
-
         </div>
 
 
