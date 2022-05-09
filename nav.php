@@ -17,6 +17,7 @@
 <?php require "php/shit/head2.php"; ?>
 <?php
     session_start();
+    $_SESSION['ok'] = true;
     /*
     $account = $_SESSION['account'];
     $conn = new PDO('mysql:host=localhost;dbname=acdb', 'root', '');
@@ -304,7 +305,7 @@
                         var category = $("#excategory").val();
                         var latitude = $("#exlatitude").val();
                         var longitude = $("#exlongitude").val();
-                        $("#shopResErrMsg").load("php/nV/shopRegister.php", {
+                        $("#shopResErrMsg").load("php/nv/shopRegister.php", {
                             shopname :shopname,
                             category :category,
                             latitude :latitude,
@@ -352,28 +353,34 @@
             <iframe id="id_iframe" name="nm_iframe" style="display:none;"></iframe>
             <hr>
             <h3>ADD</h3>
+            <script>
+                
+               
 
-            <form class="form-group " target="dummyframe" method="post" action="php/back/uploadProduct.php" Enctype="multipart/form-data">
+                
+                
+            </script>
+            <form class="form-group " method="post" action="php/back/uploadProduct.php" Enctype="multipart/form-data" id= "addProForm">
                 <div class="row">
 
                     <div class="col-xs-6">
                         <label for="ex3">meal name</label>
-                        <input class="form-control" id="ex3" type="text" name="pname"  required>
+                        <input class="form-control" id="pname" type="text" name="pname"  required>
                     </div>
                 </div>
                 <div class="row" style=" margin-top: 15px;">
                     <div class="col-xs-3">
                         <label for="ex7">price</label>
-                        <input class="form-control" id="ex7" name="price" pattern="^[0-9]+$"type="text" required>
+                        <input class="form-control" id="price" name="price" pattern="^[0-9]+$"type="text" required>
                     </div>
                     <div class="col-xs-3">
                         <label for="ex4">quantity</label>
-                        <input class="form-control" id="ex4"  name="quantity" pattern="^[0-9]+$"type="text" required>
+                        <input class="form-control" id="quantity"  name="quantity" pattern="^[0-9]+$"type="text" required>
                     </div>
                 </div>
 
 
-                <div id="notfull" style="color :red "></div>
+                <p id="addproErrMsg" style="color :red "></p>
 
                 <div class="row" style=" margin-top: 25px;">
 

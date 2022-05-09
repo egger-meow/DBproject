@@ -5,7 +5,7 @@ $dbname='acdb';
 $dbusername='jonhou1203';
 $dbpassword='pass9704';
 session_start();
-
+$_SESSION['ok'] = true;
 $msg = "";
 try {
    
@@ -24,7 +24,6 @@ try {
   $fileContents = base64_encode($fileContents);
 
 
-  print_r($_FILES);
  // exit();
   $conn = new PDO("mysql:host=$dbservername; dbname=$dbname", 
   $dbusername, $dbpassword);
@@ -52,22 +51,15 @@ try {
     $stmt->execute(array('user' => $_SESSION['curUser']['UID']));
     $SID = $stmt->fetch()[0];
 
-    $stmt=$conn->prepare("select * from products where name = '$productName' and SID = $SID");
+    $stmt=$conn->prepare("select * from products where productName = '$productName' and SID = $SID");
     $stmt->execute();
     if ($stmt->rowCount()!=0){
-      $PID = $stmt->fetch()['PID'];
-      $q = $stmt->fetch()['quantity'];
-
-      $sql="insert INTO productimage values ($PICID,$PID,'$fileContents','$imgType')";
-      $stmt=$conn->prepare("update products SET price = $price, quantity = $quantity+$q  where name = '$productName' and SID = $SID ");
-      $stmt->execute();
-      $stmt=$conn->prepare($sql);
-      $stmt->execute();
+      throw new Exception('Product existed.');
     }
     else{
-      $s=$conn->prepare("select count(*) from products");
-      $s->execute();
-      $k = $s ->fetch();
+      $s = $conn->prepare("select count(*) from products");
+      $s -> execute();
+      $k = $s -> fetch();
       if((int)$k[0]!=0){
         $s=$conn->prepare("select max(PID) from products");
         $s->execute();
@@ -85,34 +77,38 @@ try {
         <body>
         <script>
         alert("add product success!" )
-        //window.location.replace(../../nav.php#menu1)
+        window.location.replace("../../nav.php#menu1")
         </script> </body> </html>
     EOT;
     
     exit();
   }
   catch(PDOException $e){
+    $_SESSION['ok'] =false;
     $msg = $e->getMessage();
+    $_SESSION['errMsg'] = $e->getMessage();
     echo <<<EOT
         <!DOCTYPE html>
         <html>
         <body>
         <script>
-        alert("add product failed! error: $msg" )
-
+        alert("$msg" )
+        window.location.replace("../../nav.php#menu1")
         </script> </body> </html>
     EOT;
   }
 }
 catch(Exception $e){
+  $_SESSION['ok'] =false;
   $msg = $e->getMessage();
+  $_SESSION['errMsg'] = $e->getMessage();
     echo <<<EOT
         <!DOCTYPE html>
         <html>
         <body>
         <script>
-        alert("add product failed! error: $msg" )
- 
+       alert("$msg" )
+        window.location.replace("../../nav.php#menu1")
         </script> </body> </html>
     EOT;
 }

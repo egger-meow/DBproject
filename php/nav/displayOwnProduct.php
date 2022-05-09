@@ -18,27 +18,67 @@ $dbpassword='pass9704';
     foreach($s->fetchAll() as $product){
 
       $PID = $product['PID'];
-      $productName = $product['name'];
+      $productName = $product['productName'];
       $price = $product['price'];
       $quantity	 = $product['quantity'];
 
       $sql="select * FROM productimage WHERE PID=$PID";
-      $result = $conn->prepare($sql);
+      $result = $conn->query($sql);
     
       
       //查詢結果
-      $imageDisplay = "";
+      
+
+      echo <<<EOT
+      <script>
+        $(document).ready(function() {
+            $("#edit$productName").click( function() {          
+                var quantity= $("#quantity$productName").val();
+                var price = $("#price$productName").val();
+                var productName = '$productName';
+              
+                $("#shopResErrMsg$productName").load("php/nav/editOwnProduct.php", {
+                    quantity :quantity,
+                    price :price,
+                    productName :productName
+                });
+                
+                
+            });   
+        });
+        $(document).ready(function() {
+          $("#del$productName").click( function() {          
+              var quantity= $("#quantity$productName").val();
+              var price = $("#price$productName").val();
+              var productName = '$productName';
+              
+              
+              if(confirm("remove $productName?")){
+                $("#shopResErrMsg$productName").load("php/nav/deleteOwnProduct.php", {
+                  quantity :quantity,
+                  price :price,
+                  productName :productName
+                });   
+              }       
+          });   
+      });
+
+        
+      </script>
+        <tr>
+            <div id="shopResErrMsg$productName"></div>
+            <th scope="row">$count</th>
+            <td>
+      EOT;
+     
       if ($result->rowCount()>0) {
         $row = $result->fetch();
         $img=$row['image'];
         $logodata = $img;
-        $imageDisplay = '<img  with="50" heigh="10" src="data:'.$row['imgType'].';base64,' . $logodata . '" />';  
+        echo '<img  width="50" height="10" src="data:'.$row['imgType'].';base64,' . $logodata . '" />';  
       }
-
       echo <<<EOT
-        <tr>
-            <th scope="row">$count</th>
-            <td>$imageDisplay</td>
+            </td>
             <td>$productName</td>
 
             <td>$price </td>
@@ -49,30 +89,30 @@ $dbpassword='pass9704';
             <!-- Modal -->
             <div class="modal fade" id="$productName-1" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
+                  
                     <div class="modal-content">
+                    
                         <div class="modal-header">
                             <h5 class="modal-title" id="staticBackdropLabel">$productName Edit</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                        </div>
-                        <div class="modal-body">
+                        </div>              
+                          <div class="modal-body">
                             <div class="row">
-                                <div class="col-xs-6">
-                                    <label for="ex71">price</label>
-                                    <input class="form-control" id="ex71" type="text">
-                                </div>
-                                <div class="col-xs-6">
-                                    <label for="ex41">quantity</label>
-                                    <input class="form-control" id="ex41" type="text">
-                                </div>
+                              <div class="col-xs-6">
+                                <label for="ex71">price</label>
+                                <input name="price" value="$price" id="price$productName" class="form-control"  type="text" pattern="^[0-9]+$" required>
+                              </div>
+                              <div class="col-xs-6">
+                                <label for="ex41">quantity</label>
+                                <input name="quantity" value="$quantity" id="quantity$productName" class="form-control"  type="text" pattern="^[0-9]+$ required>
+                              </div>
                             </div>
-
-                        </div>
-                        <div class="modal-footer">
+                          </div> 
+                          <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal" id="edit$productName">Edit</button>
-
-                        </div>
+                          </div>                    
                     </div>
                 </div>
             </div>
@@ -82,12 +122,6 @@ $dbpassword='pass9704';
       $count ++;
 
     }
-
-   
-
-
-
- 
   }
   catch(PDOException $e){
     $MSG = $e ->getMessage();
@@ -97,8 +131,10 @@ $dbpassword='pass9704';
     </script> 
     EOT; 
   }
-
-
+?>
+<script>
+  
+</script>
 
 
 
