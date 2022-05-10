@@ -38,26 +38,37 @@ $dbpassword='';
                 $UID = $_SESSION['curUser']['UID'];
                 $phonNum = $_SESSION['curUser']['phoneNum'];
                 
-                $stmt=$conn->prepare("insert into shops(SID, UID, shopname, category, location ,phoneNum ) values ($SID ,$UID, '$shopname' ,'$category', ST_GeomFromText('POINT($latitude $longitude)'), $phonNum);");
+                $stmt=$conn->prepare("insert into shops values ($SID ,$UID, '$shopname' ,'$category', ST_GeomFromText('POINT($latitude $longitude)'), '$phonNum');");
                 $stmt->execute();
 
                 $stmt=$conn->prepare("update users set identity = true where UID = $UID;");
                 $stmt->execute();
-                $phonNum = $_SESSION['curUser']['identity'] = true;
+                $_SESSION['curUser']['identity'] = true;
+                $_SESSION['curUser']['SID'] = $SID;
+                echo <<<EOT
+                    <!DOCTYPE html>
+                    <html>
+                    <body>
+                    <script>
+                    alert("Resgister successfully.");
+                    window.location.replace("../../nav.php");
+                    </script> </body> </html>
+                EOT;
             }
             catch(PDOException $e){
                 throw new Exception( $e->getMessage());
             }
         }
         else{
-            throw new Exception("shop name existed.");
+            echo "shop name existed.";
+            exit();
         }
     }
     catch(PDOException $e){
         $_SESSION['ok'] = false;
-        $K = $e->getMessage();
-        echo "<span style='color:red'>  $k</span>";
- }
+        $k = $e->getMessage();
+        echo "$k";
+    }
 /*
     echo <<<EOT
         <!DOCTYPE html>

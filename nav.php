@@ -305,13 +305,13 @@
                         var category = $("#excategory").val();
                         var latitude = $("#exlatitude").val();
                         var longitude = $("#exlongitude").val();
-                        $("#shopResErrMsg").load("php/nv/shopRegister.php", {
+                        $("#shopResErrMsg").load("php/nav/shopRegister.php", {
                             shopname :shopname,
                             category :category,
                             latitude :latitude,
                             longitude :longitude
                         });
-                        checkResShop();
+                        //checkResShop();
                     });   
                 });
 
@@ -340,7 +340,7 @@
                     </div>
                 </div>
             </div>
-            <p id = "shopResErrMsg">
+            <p id = "shopResErrMsg" style="color:red">
             </p>
             <div class=" row" style=" margin-top: 25px;">
                 <div class=" col-xs-3">
@@ -438,10 +438,17 @@
 
     </div>
 </div>
+<button id="logout" style=" margin-top: 15px;" type="button" class="btn btn-primary">logout</button>
 
 <!-- Option 1: Bootstrap Bundle with Popper -->
 <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
 <script>
+    $(document).ready(function() {
+        $("#logout").click(function() {
+            <?php echo $_SESSION['Authenticated']=false;?>
+            window.location.replace("index.php");
+        });
+    });
     $(document).ready(function() {
         $(".nav-tabs a").click(function() {
             $(this).tab('show');
