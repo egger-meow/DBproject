@@ -4,7 +4,7 @@ function isFloat(val) {
         return false;
 
     val = parseFloat(val);
-    if (isNaN(val))
+    if (isNaN(val) == 1)
         return false;
     return true;
 }

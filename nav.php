@@ -330,7 +330,6 @@
                         <label for="ex5">shop category</label>
                         <input name="category" class="form-control" id="excategory" placeholder="fast food" type="text" required="required">
                     </div>
-                    <div class="col-xs-2">
                         <label for="ex6">latitude</label>
                         <input name="latitude" class="form-control" id="exlatitude" placeholder="121.00028167648875" type="text" required="required">
                     </div>
