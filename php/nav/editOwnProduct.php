@@ -33,7 +33,7 @@ $quantity    = $_REQUEST['quantity'] ;
 
     exit();
   }
-  catch(Exception $e){
+  catch(Exception $e){ 
     $msg = $e->getMessage();
     echo <<<EOT
         <!DOCTYPE html>

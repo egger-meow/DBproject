@@ -17,7 +17,7 @@
 <?php require "php/shit/head2.php"; ?>
 <?php
     session_start();
-    $_SESSION['ok'] = true;
+    $_SESSION['ok'] = true; //fuck
     /*
     $account = $_SESSION['account'];
     $conn = new PDO('mysql:host=localhost;dbname=acdb', 'root', '');
@@ -321,7 +321,7 @@
             <form action="php/nav/shopRegister.php" class="fh5co-form animate-box" data-animate-effect="fadeIn" method="post"  target="nm_iframe" id="shopResForm">
 
             <div class="form-group ">
-                <div class="row">
+                <div class="row"> 
                     <div class="col-xs-2">
                         <label for="ex5">shop name</label>
                         <input name="shopname" class="form-control" id="exshopname" placeholder="macdonald" type="text" required="required">
@@ -333,12 +333,14 @@
                         <label for="ex6">latitude</label>
                         <input name="latitude" class="form-control" id="exlatitude" placeholder="121.00028167648875" type="text" required="required">
                     </div>
+                    
                     <div class="col-xs-2">
                         <label for="ex8">longitude</label>
                         <input name="longitude" class="form-control" id="exlongitude" placeholder="24.78472733371133" type="text" required="required">
                     </div>
                 </div>
             </div>
+ 
             <p id = "shopResErrMsg" style="color:red">
             </p>
             <div class=" row" style=" margin-top: 25px;">

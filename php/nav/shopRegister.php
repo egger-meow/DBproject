@@ -47,7 +47,7 @@ $dbpassword='';
                 $_SESSION['curUser']['SID'] = $SID;
                 echo <<<EOT
                     <!DOCTYPE html>
-                    <html>
+                    <html> 
                     <body>
                     <script>
                     alert("Resgister successfully.");

@@ -10,7 +10,7 @@ $ok = true;
 $msg = "ddw";
 
 try {
-    if (!isset($_POST['lon']) ||!isset($_POST['lat']) ||!isset($_POST['pnum']) || !isset($_POST['nname']) || !isset($_POST['pwd']) || !isset($_POST['ppwd'])|| !isset($_POST['acc']))
+    if (!isset($_POST['lon']) || !isset($_POST['lat']) || !isset($_POST['pnum']) || !isset($_POST['nname']) || !isset($_POST['pwd']) || !isset($_POST['ppwd'])|| !isset($_POST['acc']))
     {
         header("Location: ../../signUp.php");
         exit();
@@ -18,7 +18,7 @@ try {
 
 
 
-    if (empty($_POST['lon']) ||empty($_POST['lat']) ||empty($_POST['pnum']) || empty($_POST['nname']) || empty($_POST['pwd']) || empty($_POST['ppwd'])|| empty($_POST['acc']))
+    if (empty($_POST['lon']) || empty($_POST['lat']) || empty($_POST['pnum']) || empty($_POST['nname']) || empty($_POST['pwd']) || empty($_POST['ppwd'])|| empty($_POST['acc']))
     throw new Exception('Please input all the information.');
 
     $nickName  = $_POST['nname']  ;
@@ -27,9 +27,7 @@ try {
     $account   = $_REQUEST['acc'] ;
     $latitude  = $_REQUEST['lat'] ;
     $longitude = $_REQUEST['lon'];
-
     $phonenumber = $_REQUEST['pnum'] ;
-
 
 
     if($pwd!=$ppwd){
@@ -75,9 +73,7 @@ catch(Exception $e){
     $ok = false;
     $msg=$e->getMessage();
     session_unset(); 
-    session_destroy(); 
-    
-   
+    session_destroy();   
 }
 echo json_encode(
     array(
