@@ -14,10 +14,10 @@ $dbpassword='';
         exit();
     }
 
-    $shopname = $_POST['shopname'];
-    $category = $_POST['category'];
-    $latitude = $_POST['latitude'];
-    $longitude = $_POST['longitude'];
+    $shopname = $_REQUEST['shopname'];
+    $category = $_REQUEST['category'];
+    $latitude = $_REQUEST['latitude'];
+    $longitude = $_REQUEST['longitude'];
    
     try{
         $conn = new PDO("mysql:host=$dbservername;dbname=$dbname", $dbusername, $dbpassword);
@@ -37,7 +37,7 @@ $dbpassword='';
                 $UID = $_SESSION['curUser']['UID'];
                 $phonNum = $_SESSION['curUser']['phoneNum'];
                 
-                $stmt=$conn->prepare("insert into shops values ($SID ,$UID, '$shopname' ,'$category', ST_GeomFromText('POINT($latitude $longitude)'), '$phonNum');");
+                $stmt=$conn->prepare("insert into shops values ($SID ,$UID, '$shopname' ,'$category' , ST_GeomFromText('POINT($latitude $longitude)') , '$phonNum');");
                 $stmt->execute();
 
                 $stmt=$conn->prepare("update users set identity = true where UID = $UID;");
@@ -50,7 +50,7 @@ $dbpassword='';
                     <body>
                     <script>
                     alert("Resgister successfully.");
-                    window.location.replace("../../nav.php");
+                    //window.location.replace("navShop.php");
                     </script> </body> </html>
                 EOT;
             }

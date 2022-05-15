@@ -27,7 +27,7 @@ $quantity    = $_REQUEST['quantity'] ;
         <body> 
         <script>
         alert("remove success!" )
-        window.location.replace("nav.php")
+        window.location.replace("navShop.php")
         </script> </body> </html>
     EOT;
 
@@ -41,7 +41,7 @@ $quantity    = $_REQUEST['quantity'] ;
         <body>
         <script>
         alert("$msg")
-        window.location.replace("nav.php")
+        window.location.replace("navShop.php")
         </script> </body> </html>
     EOT;
 

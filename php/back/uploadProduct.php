@@ -77,7 +77,7 @@ try {
         <body>
         <script>
         alert("add product success!" )
-        window.location.replace("../../nav.php#menu1")
+        window.location.replace("../../navShop.php")
         </script> </body> </html>
     EOT;
     
@@ -93,7 +93,7 @@ try {
         <body>
         <script>
         alert("$msg" )
-        window.location.replace("../../nav.php#menu1")
+        window.location.replace("../../navShop.php")
         </script> </body> </html>
     EOT;
   }
@@ -108,7 +108,7 @@ catch(Exception $e){
         <body>
         <script>
        alert("$msg" )
-        window.location.replace("../../nav.php#menu1")
+        window.location.replace("../../navShop.php")
         </script> </body> </html>
     EOT;
 }

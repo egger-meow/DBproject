@@ -66,6 +66,9 @@ try{
         $id = true ;
 
       }
+      
+      //陳 判斷是否為剛進入 connect with search "action_page line 69"
+      $_SESSION['begin']=true;
     }
     else{    
       throw new Exception('wrong password.');
