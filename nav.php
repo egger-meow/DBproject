@@ -2,7 +2,7 @@
 <?php require "php/shit/head2.php"; ?>
 <?php
     session_start();
-    $_SESSION['ok'] = true; //fuck\
+    $_SESSION['ok'] = true; //fuck test
     
     
 ?>
