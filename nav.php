@@ -1,36 +1,9 @@
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <?php require "php/shit/head2.php"; ?>
 <?php
     session_start();
-    $_SESSION['ok'] = true; //fuck
-    /*
-    $account = $_SESSION['account'];
-    $conn = new PDO('mysql:host=localhost;dbname=acdb', 'root', '');
-    $stmt=$conn->prepare("select * from users where account=:acc");
-    $stmt->execute(array('acc' => $account));
-    $row = $stmt->fetch();
-    $stmt=$conn->prepare("select ST_AsText(location) from users where account=:acc");
-    $stmt->execute(array('acc' => $account));
-    //找location
-    $geoloca = $stmt->fetch()["ST_AsText(location)"];
-    $geoloca = substr($geoloca, 6, strlen($geoloca)-6-1);
-    $loca = explode(" ",$geoloca);
-    */
+    $_SESSION['ok'] = true; //fuck\
+    
     
 ?>
 
@@ -39,18 +12,13 @@
         <div class="navbar-header">
             <a class="navbar-brand " href="#">DJJs</a>
         </div>
-
     </div>
 </nav>
 <div class="container">
-
     <ul class="nav nav-tabs">
         <li class="active"><a href="#home">Home</a></li>
         <li><a href="#menu1">shop</a></li>
-
-
     </ul>
-
     <div class="tab-content">
         <div id="home" class="tab-pane fade in active">
             <h3>Profile</h3>
@@ -58,12 +26,9 @@
                 <div class="col-xs-12">
                 
                     Accouont: <?php echo $_SESSION['curUser']['account']; ?>, user: <?php echo $_SESSION['curUser']['username'];?>, PhoneNumber: <?php echo $_SESSION['curUser']['phoneNum']; ?>, location: <?php echo $_SESSION['curUser']['latitude'],',',$_SESSION['curUser']['longitude']; ?>
-
                     <button type="button " style="margin-left: 5px;" class=" btn btn-info " data-toggle="modal" data-target="#location">edit location</button>
                     <!--  -->
-                    
-                    
-                    
+       
                     <div class="modal fade" id="location" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog  modal-sm">
                             <div class="modal-content">
@@ -293,12 +258,8 @@
 
             <script>
                 
-                if(<?php echo $_SESSION['curUser']['identity']?>){
-                    //alert("shop register success!");
-                    //document.getElementById('shopResSubmit').disabled = true ;
-                }
 
-                $(document).ready(function() {
+                 $(document).ready(function() {
                     $("#shopResForm").submit( function(event) {
                         event.preventDefault();
                         var shopname = $("#exshopname").val();
@@ -323,29 +284,31 @@
             <div class="form-group ">
                 <div class="row"> 
                     <div class="col-xs-2">
-                        <label for="ex5">shop name</label>
+                        <label for="exshopname">shop name</label>
                         <input name="shopname" class="form-control" id="exshopname" placeholder="macdonald" type="text" required="required">
                     </div>
                     <div class="col-xs-2">
-                        <label for="ex5">shop category</label>
+                        <label for="excategory">shop category</label>
                         <input name="category" class="form-control" id="excategory" placeholder="fast food" type="text" required="required">
                     </div>
-                        <label for="ex6">latitude</label>
+                    <div class="col-xs-2">
+                        <label for="exlatitude">latitude</label>
                         <input name="latitude" class="form-control" id="exlatitude" placeholder="121.00028167648875" type="text" required="required">
                     </div>
                     
                     <div class="col-xs-2">
-                        <label for="ex8">longitude</label>
+                        <label for="exlongitude">longitude</label>
                         <input name="longitude" class="form-control" id="exlongitude" placeholder="24.78472733371133" type="text" required="required">
                     </div>
                 </div>
             </div>
  
             <p id = "shopResErrMsg" style="color:red">
+
             </p>
             <div class=" row" style=" margin-top: 25px;">
                 <div class=" col-xs-3">
-                    <input type="submit" value="register" class="btn btn-primary" id="shopResSubmit">
+                    <button type="submit" style=" margin-top: 15px;" value="register" class="btn btn-primary" id="shopResSubmit">register</button>
                     <!-- <button type="button" class="btn btn-primary">register</button> -->
                 </div>
             </div>
@@ -392,7 +355,7 @@
                     </div>
                     <div class=" col-xs-3">
 
-                        <button id="fuck" style=" margin-top: 15px;" type="submit" class="btn btn-primary">Add</button>
+                        <button id="fuck" style=" margin-top: 15px;" type="submit" class="btn btn-primary" >Add</button>
                     </div>
                 </div>
             </form>
@@ -439,22 +402,25 @@
 
     </div>
 </div>
-<button id="logout" style=" margin-top: 15px;" type="button" class="btn btn-primary">logout</button>
+<!-- <button id="logout" style=" margin-top: 15px;" type="button" class="btn btn-primary">logout</button> -->
 
 <!-- Option 1: Bootstrap Bundle with Popper -->
 <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
 <script>
-    $(document).ready(function() {
-        $("#logout").click(function() {
-            <?php echo $_SESSION['Authenticated']=false;?>
-            window.location.replace("index.php");
-        });
-    });
+    // $(document).ready(function() {
+    //     $("#logout").click(function() {
+    //         <?php echo $_SESSION['Authenticated']=false;?>
+    //         window.location.replace("index.php");
+    //     });
+    // });
     $(document).ready(function() {
         $(".nav-tabs a").click(function() {
             $(this).tab('show');
         });
     });
+    if(<?php echo $_SESSION['curUser']['identity']?>){       
+        $('#shopResSubmit').prop('disabled', true)       
+    }
 </script>
 
 <!-- Option 2: Separate Popper and Bootstrap JS -->

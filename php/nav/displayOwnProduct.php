@@ -45,8 +45,8 @@ $dbpassword='pass9704';
                 
                 
             });   
-        });
-        $(document).ready(function() {
+          });
+       $(document).ready(function() {
           $("#del$productName").click( function() {          
               var quantity= $("#quantity$productName").val();
               var price = $("#price$productName").val();
@@ -77,6 +77,7 @@ $dbpassword='pass9704';
         $logodata = $img;
         echo '<img  width="50" height="10" src="data:'.$row['imgType'].';base64,' . $logodata . '" />';  
       }
+
       echo <<<EOT
             </td>
             <td>$productName</td>
@@ -132,9 +133,7 @@ $dbpassword='pass9704';
     EOT; 
   }
 ?>
-<script>
-  
-</script>
+
 
 
 

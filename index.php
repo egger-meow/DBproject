@@ -69,7 +69,7 @@ require "php/shit/head.php"
                     function handleResponse (responseObject) {
                         if (responseObject.ok) {
                             alert("hello ," + responseObject.us)
-                           window.location.replace("nav.php");
+                            window.location.replace("nav.php");
                         } else {
                             console.log("haha");
 

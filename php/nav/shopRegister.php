@@ -14,7 +14,6 @@ $dbpassword='';
         exit();
     }
 
-
     $shopname = $_POST['shopname'];
     $category = $_POST['category'];
     $latitude = $_POST['latitude'];

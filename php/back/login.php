@@ -12,6 +12,7 @@ $dbpassword='pass9704';
 $ok = true;
 $msg = "";
 $us  = "";
+$id = false;
 try{
   
   if (!isset($_POST['acc']) || !isset($_POST['pwd']))
@@ -58,9 +59,12 @@ try{
       $us = $row['username']; 
         
       if($row['identity']){
+
         $stmt=$conn->prepare("select SID from shops where UID=:uid");
         $stmt->execute(array('uid' => $row['UID']));
         $_SESSION['curUser']['SID'] =  $stmt->fetch()['SID'];
+        $id = true ;
+
       }
     }
     else{    
@@ -71,7 +75,6 @@ try{
   }
   else
     throw new Exception('account not exist.');
-
   }
 
 catch(Exception $e){
@@ -84,7 +87,8 @@ echo json_encode(
   array(
       'ok'       => $ok,
       'msg'      => $msg,
-      'us'       =>$us
+      'us'       => $us,
+      'id'       => $id
   )
 );
 
