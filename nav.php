@@ -4,7 +4,7 @@
 <?php
     session_start();
     $_SESSION['ok'] = true;
-    /*
+    /*fuck
     $account = $_SESSION['account'];
     $conn = new PDO('mysql:host=localhost;dbname=acdb', 'root', '');
     $stmt=$conn->prepare("select * from users where account=:acc");

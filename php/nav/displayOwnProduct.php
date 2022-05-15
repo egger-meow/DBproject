@@ -26,8 +26,7 @@ $dbpassword='pass9704';
       $result = $conn->query($sql);
     
       
-      //查詢結果
-      
+      //查詢結果     
 
       echo <<<EOT
       <script>
@@ -62,8 +61,7 @@ $dbpassword='pass9704';
               }       
           });   
       });
-
-        
+      
       </script>
         <tr>
             <div id="shopResErrMsg$productName"></div>
