@@ -204,8 +204,8 @@
                                         $shopname = $shop['shopname'];
                                         array_push($Shopsname,$shopname);
                                         $category = $shop['category'];
-                                        $s=$conn->prepare("select ST_Distance_Sphere(POINT(:lat,:lon),location) from shops where SID=$value");
-                                        $s->execute(array('lat' => $_SESSION['curUser']['latitude'] ,'lon' => $_SESSION['curUser']['longitude'] ));
+                                        $s=$conn->prepare("select ST_Distance_Sphere(POINT(:lon,:lat),location) from shops where SID=$value");
+                                        $s->execute(array('lon' => $_SESSION['curUser']['longitude'],'lat' => $_SESSION['curUser']['latitude']  ));
                                         $dis = $s -> fetch()[0];
                             
                                         if($dis<100){$distance='near';}
