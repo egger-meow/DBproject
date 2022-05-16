@@ -37,24 +37,30 @@ $dbpassword='';
                 $UID = $_SESSION['curUser']['UID'];
                 $phonNum = $_SESSION['curUser']['phoneNum'];
                 
-                $stmt=$conn->prepare("insert into shops values ($SID ,$UID, '$shopname' ,'$category' , ST_GeomFromText('POINT($latitude $longitude)') , '$phonNum');");
+                $stmt=$conn->prepare("insert into shops values ($SID ,$UID, '$shopname' ,'$category' , ST_GeomFromText('POINT($longitude $latitude)') , '$phonNum');");
                 $stmt->execute();
 
                 $stmt=$conn->prepare("update users set identity = true where UID = $UID;");
                 $stmt->execute();
                 $_SESSION['curUser']['identity'] = true;
                 $_SESSION['curUser']['SID'] = $SID;
+
+                $_SESSION['curUser']['shop']['shopName']  = $shopname ;
+                $_SESSION['curUser']['shop']['category']  = $category ;
+                $_SESSION['curUser']['shop']['latitude']  = $latitude ;
+                $_SESSION['curUser']['shop']['longitude'] = $longitude;
+
                 echo <<<EOT
                     <!DOCTYPE html>
                     <html> 
                     <body>
                     <script>
                     alert("Resgister successfully.");
-                    //window.location.replace("navShop.php");
+                    window.location.replace("navShop.php");
                     </script> </body> </html>
                 EOT;
             }
-            catch(PDOException $e){
+            catch(PDOException $e) {
                 throw new Exception( $e->getMessage());
             }
         }

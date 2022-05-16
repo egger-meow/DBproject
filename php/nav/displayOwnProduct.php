@@ -73,7 +73,7 @@ $dbpassword='pass9704';
         $row = $result->fetch();
         $img=$row['image'];
         $logodata = $img;
-        echo '<img  width="50" height="10" src="data:'.$row['imgType'].';base64,' . $logodata . '" />';  
+        echo '<img  width="50" height="40" src="data:'.$row['imgType'].';base64,' . $logodata . '" />';  
       }
 
       echo <<<EOT

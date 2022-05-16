@@ -53,7 +53,7 @@ try {
         $salt=strval(rand(1000,9999));
         $hashvalue=hash('sha256', $salt.$pwd);
       
-        $stmt=$conn->prepare("insert into users values ('$UID', '$nickName' ,'$phonenumber' ,'$account' ,'$hashvalue' , '$salt', ST_GeomFromText('POINT($latitude $longitude)') ,100,0);");
+        $stmt=$conn->prepare("insert into users values ('$UID', '$nickName' ,'$phonenumber' ,'$account' ,'$hashvalue' , '$salt', ST_GeomFromText('POINT($longitude $latitude)') ,100,0);");
        
         $stmt->execute();
       

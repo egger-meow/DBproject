@@ -29,7 +29,7 @@
         <div class="navbar-header">
             <a class="navbar-brand " href="#">DJJs</a>
         </div>
-
+        <button id="logout" style=" margin-top: 15px;" type="button" class="btn btn-primary">logout</button>
     </div>
 </nav>
 <div class="container">
@@ -54,6 +54,15 @@
                         var category = $("#excategory").val();
                         var latitude = $("#exlatitude").val();
                         var longitude = $("#exlongitude").val();
+
+                        let lon = parseFloat(longitude)
+                        let lat = parseFloat(latitude)
+                        if(Math.abs(lat)>90||Math.abs(lon)>180){
+                            $("#shopResErrMsg").html('illegal location inout!');
+                            return;
+                        }
+
+
                         $("#shopResErrMsg").load("php/nav/shopRegister.php", {
                             shopname :shopname,
                             category :category,
@@ -83,7 +92,7 @@
 
             <form action="php/nav/shopRegister.php" class="fh5co-form animate-box" data-animate-effect="fadeIn" method="post"  target="nm_iframe" id="shopResForm">
 
-                <div class="form-group ">
+                <div class="form-group " id="shopInformation">
                     <div class="row">
                         <div class="col-xs-2">
                             <label for="ex5">shop name</label>
@@ -113,8 +122,38 @@
                 </div>
 
             </form>
-            
+            <script>
+                $(document).ready(function() {
+                    $("#logout").click(function() {
+                        <?php echo $_SESSION['Authenticated']=false;?>
+                        window.location.replace("index.php");
+                    });
+                });
+                $(document).ready(function() {
+                    $(".nav-tabs a").click(function() {
+                        $(this).tab('show');
+                    });
+                });
+                if(<?php echo $_SESSION['curUser']['identity']?>){       
+                    $('#shopResSubmit').prop('disabled', true)    
+                    $('#shopInformation .form-control').each(function(){
+                        $(this).attr('readonly','readonly');
+                    });
+                    $('#exshopname').attr('value', '<?php echo $_SESSION['curUser']['shop']['shopName']?>');
+                    $('#excategory').attr('value', '<?php echo $_SESSION['curUser']['shop']['category']?>');
+                    $('#exlatitude').attr('value', '<?php echo $_SESSION['curUser']['shop']['latitude']?>');
+                    $('#exlongitude').attr('value', '<?php echo $_SESSION['curUser']['shop']['longitude']?>');
+                    $('#menu1 h3:first-child').html('Your business')
+
+                }
+                
+            </script>
             <hr>
+            <?php 
+            if(!$_SESSION['curUser']['identity']){
+                exit();
+            }
+            ?>
             <h3>ADD</h3>
    
             <form class="form-group " method="post" action="php/back/uploadProduct.php" Enctype="multipart/form-data" id= "addProForm">
@@ -144,10 +183,9 @@
                     <div class=" col-xs-3">
                         <label for="ex12">上傳圖片</label>
                         <input id="myFile" type="file" name="upfile" multiple class="file-loading" required>
-
                     </div>
-                    <div class=" col-xs-3">
 
+                    <div class=" col-xs-3">
                         <button id="fuck" style=" margin-top: 15px;" type="submit" class="btn btn-primary">Add</button>
                     </div>
                 </div>
@@ -182,26 +220,11 @@
     </div>
 </div>
 </body>
-<button id="logout" style=" margin-top: 15px;" type="button" class="btn btn-primary">logout</button>
+
 
 <!-- Option 1: Bootstrap Bundle with Popper -->
 <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
-<script>
-    $(document).ready(function() {
-        $("#logout").click(function() {
-            <?php echo $_SESSION['Authenticated']=false;?>
-            window.location.replace("index.php");
-        });
-    });
-    $(document).ready(function() {
-        $(".nav-tabs a").click(function() {
-            $(this).tab('show');
-        });
-    });
-    if(<?php echo $_SESSION['curUser']['identity']?>){       
-        $('#shopResSubmit').prop('disabled', true)       
-    }
-</script>
+
 
 <!-- Option 2: Separate Popper and Bootstrap JS -->
 <!--

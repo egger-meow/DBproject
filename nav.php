@@ -4,6 +4,7 @@
 <?php
     session_start();
     $_SESSION['ok'] = true;
+    1 != 2;
     /*fuck
     $account = $_SESSION['account'];
     $conn = new PDO('mysql:host=localhost;dbname=acdb', 'root', '');
@@ -44,10 +45,8 @@
     <ul class="nav nav-tabs">
         <li class="active"><a href="nav.php">Home</a></li>
         <li><a href="navShop.php">shop</a></li>
-
-
     </ul>
-    
+
     <div class="tab-content">
         <div id="home" class="tab-pane fade in active">
             <h3>Profile</h3>
@@ -57,10 +56,7 @@
                     Accouont: <?php echo $_SESSION['curUser']['account']; ?>, user: <?php echo $_SESSION['curUser']['username'];?>, PhoneNumber: <?php echo $_SESSION['curUser']['phoneNum']; ?>, location: <?php echo $_SESSION['curUser']['latitude'],',',$_SESSION['curUser']['longitude']; ?>
 
                     <button type="button " style="margin-left: 5px;" class=" btn btn-info " data-toggle="modal" data-target="#location">edit location</button>
-                    <!--  -->
-                    
-                    
-                    
+                    <!--  -->              
                     <div class="modal fade" id="location" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog  modal-sm">
                             <div class="modal-content">
@@ -79,15 +75,12 @@
                 
                                 <div class="modal-footer">
                                     <input type="submit" value="Edit" class="btn btn-primary">
-                                   <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Edit</button> -->
+                                    <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Edit</button> -->
                                 </div>
                                 </form>
                             </div>
                         </div>
                     </div>
-
-                   
-                    
                     
                     <!--  -->
                     walletbalance: <?php echo $_SESSION['curUser']['balance']; ?>
@@ -113,9 +106,7 @@
                         </div>
                     </div>
                 </div>
-
             </div>
-            
             <!-- 
                 搜尋SEARCH
                 頁面 跳轉to action_page.php
@@ -138,8 +129,6 @@
                                 <option>near</option>
                                 <option>medium </option>
                                 <option>far</option>
-                                
-
                             </select>
                         </div>
 
@@ -299,12 +288,8 @@
 
                                                             $productName = $product['productName'];
                                                             $price = $product['price'];
-                                                            $quantity	 = $product['quantity'];
-                                                            
-                                                    ?>
-
-                                                    
-                                                   
+                                                            $quantity	 = $product['quantity'];                                                          
+                                                    ?>                           
                                                     <tr>
                                                         <th scope="row"><?php echo $id;?></th>
                                                         <td>
@@ -312,7 +297,7 @@
                                                                 $row = $result->fetch();
                                                                 $img=$row['image'];
                                                                 $logodata = $img;
-                                                                echo '<img  width="50" height="10" src="data:'.$row['imgType'].';base64,' . $logodata . '" />';  
+                                                                echo '<img  width="50" height="40" src="data:'.$row['imgType'].';base64,' . $logodata . '" />';  
                                                             }?>
                                                         </td>
 
@@ -323,9 +308,6 @@
 
                                                         <td> <input type="checkbox" id="cbox1" value="<?php echo $productName;?>"></td>
                                                     </tr>
-                                                    
-
-
                                                     <?php
                                                         }
                                                     ?>

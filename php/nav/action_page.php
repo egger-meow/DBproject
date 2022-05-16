@@ -14,14 +14,14 @@ if(empty($_POST['shopname']) && $_POST['distance']=='null' && empty($_POST['min_
     && empty($_POST['max_price']) && empty($_POST['meal']) && empty($_POST['category']) )
 {
     echo <<<EOT
-    <!DOCTYPE html>
-    <html>
-    <body>
-    <script>
-    window.location.replace("../../nav.php")
-    alert("請輸入任一資訊" )
-    </script> </body> </html>
-EOT;
+        <!DOCTYPE html>
+        <html>
+        <body>
+        <script>
+        window.location.replace("../../nav.php")
+        alert("請輸入任一資訊" )
+        </script> </body> </html>
+    EOT;
 }
 
 else{

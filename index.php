@@ -83,6 +83,14 @@ require "php/shit/head.php"
                             form.message.style.display = "block";
                         }
                     }
+                    $(window).keydown(function(e){
+                        if(e.keyCode==13){
+                            $( "#fuck" ).click();
+                        }
+                        else if(e.keyCode==16){
+                            window.location.replace("signUp.php");
+                        }
+                    })
                 </script>
                 <!-- END Sign In Form -->
             </div>

@@ -115,8 +115,7 @@ require "php/shit/head.php";
 								console.error(request.responseText);
 							}
 
-							if (responseObject) {
-								
+							if (responseObject) {							
 								handleAcc(responseObject);
 							}
 
@@ -130,16 +129,15 @@ require "php/shit/head.php";
 				$("#phonenumber").change(function() {
 					
 					if((!/^[0-9]+$/.test($(this).val())||$(this).val().length!=10)&&$(this).val()!=''){
-							$("#invpnum").html('phone number must be 10 digit numbers!').slideDown();
-						}
-						else{
-							$("#invpnum").html('');
-						}
+						$("#invpnum").html('phone number must be 10 digit numbers!').slideDown();
 					}
-				)
+					else{
+						$("#invpnum").html('');
+					}					
+				})
 				$("#longitude").change(function() {
 					
-					if(!isFloat($(this).val())&&$(this).val()!=''){
+						if((!isFloat($(this).val())&&$(this).val()!='')||parseFloat($(this).val())>180||parseFloat($(this).val())<-180){
 							$("#invlon").html('illegal longitude!').slideDown();
 						}
 						else{
@@ -149,7 +147,7 @@ require "php/shit/head.php";
 				)
 				$("#latitude").change(function() {
 					
-					if(!isFloat($(this).val())&&$(this).val()!=''){
+					if((!isFloat($(this).val())&&$(this).val()!='')||parseFloat($(this).val())>90||parseFloat($(this).val())<-90){
 							$("#invlat").html('illegal latitude!').slideDown();
 						}
 						else{
@@ -191,7 +189,7 @@ require "php/shit/head.php";
 					request.send(requestData);
 				});
         function handleAcc(responseObject){
-					
+
 					if (!responseObject.ok){
 						if(responseObject.msg=='Account used.'){
 							let k = responseObject.msg + "</br>"
@@ -243,6 +241,12 @@ require "php/shit/head.php";
 				
 					}
 				}
+				
+				$(window).keyup(function(e){
+					  console.log(e.char);
+						$("#Account").change();
+				})
+       
 			</script>
 			<!-- END Sign In Form -->
 		</div>
