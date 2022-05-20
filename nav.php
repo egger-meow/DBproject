@@ -29,19 +29,20 @@
     $conn = new PDO("mysql:host=$dbservername; dbname=$dbname", $dbusername, $dbpassword);
     # set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $lo = $_SESSION['curUser']['longitude'];
+    $la = $_SESSION['curUser']['latitude']
     
 ?>
 
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand " href="#">DJJs</a>
+        <div class="navbar-header ">
+            <a class="navbar-brand " href="#">DJJs</a>    
         </div>
         <div class="navbar-footer">
-            <button id="logout" style=" margin-top: 15px; text-align:right;" type="button" class="btn btn-primary">logout</button>
+            <a class="navbar-brand nav" href="index.php" style="float: right;display: block;">logout</a>
         </div>
-    </div>
-    
+    </div>  
 </nav>
 <div class="container">
 
@@ -70,13 +71,14 @@
                                 </div>
                                 <div class="modal-body">
                                     <label class="control-label " for="latitude">latitude</label>
-                                    <input name= lat type="text" class="form-control" id="latitude" title="float from -90~90!" placeholder="enter latitude" required="required" pattern="[-+]?[0-9]*\.?[0-9]*">
+                                    <input name= lat type="text" class="form-control" id="latitude" title="float from -90~90!" placeholder="enter latitude" value ="<?= $_SESSION['curUser']['latitude'];?>" required="required" pattern="[-+]?[0-9]*\.?[0-9]*">
                                     <br>
                                     <label class="control-label " for="longitude">longitude</label>
-                                    <input name= lon type="text" class="form-control" id="longitude" title="float from -180~180!" placeholder="enter longitude" required="required" pattern="[-+]?[0-9]*\.?[0-9]*">
+                                    <input name= lon type="text" class="form-control" id="longitude" title="float from -180~180!" value ="<?= $_SESSION['curUser']['longitude'];?>" placeholder="enter longitude" required="required" pattern="[-+]?[0-9]*\.?[0-9]*">
                                 </div>
                 
                                 <div class="modal-footer">
+                                    <p id="ErrMsg" style="color : red"></p>
                                     <button type="submit" id="editLonLanButton" class="btn btn-primary">Edit</button>
                                     <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Edit</button> -->
                                 </div>
@@ -89,7 +91,7 @@
                         $("#lonlatedit").submit( (event)=>{
                             if(parseFloat($("#latitude").val())>90||parseFloat($("#longitude").val())>180){
                                event.preventDefault()
-                               alert("illegal loaction!")
+                               $("#ErrMsg").html('illegal input!!')
                             }
                         })
                       
@@ -362,12 +364,7 @@
 <!-- Option 1: Bootstrap Bundle with Popper -->
 <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
 <script>
-    $(document).ready(function() {
-        $("#logout").click(function() {
-            
-            window.location.replace("index.php");
-        });
-    });
+    
     $(document).ready(function() {
         $(".nav-tabs a").click(function() {
             $(this).tab('show');

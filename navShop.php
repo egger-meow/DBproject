@@ -29,10 +29,12 @@
 
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand " href="#">DJJs</a>
+        <div class="navbar-header ">
+            <a class="navbar-brand " href="#">DJJs</a>    
         </div>
-        <button id="logout" style=" margin-top: 15px;" type="button" class="btn btn-primary">logout</button>
+        <div class="navbar-footer">
+            <a class="navbar-brand nav" href="index.php" style="float: right;display: block;">logout</a>
+        </div>
     </div>
 </nav>
 <div class="container">
@@ -127,9 +129,6 @@
             </form>
             <script>
               
-                $("#logout").click(function() {            
-                    window.location.replace("index.php");
-                });
                 
                 $(document).ready(function() {
                     $(".nav-tabs a").click(function() {
@@ -148,7 +147,7 @@
                     $('#exlongitude').attr('value','<?php if($_SESSION['curUser']['identity'])echo $_SESSION['curUser']['shop']['longitude']?>');
                     $('#menu1 h3:first-child').html('Your business')
                 }
-                
+
                 $(window).keyup(function(e){
                     if($("#exshopname").is(":focus")){
                         if(<?php echo $_SESSION['curUser']['identity']?>) return
