@@ -38,7 +38,7 @@ try{
     if ($row['password']==hash('sha256',$row['salt'].$pwd)){
       try{
 
-        $_SESSION['Authenticated']=true;
+        $_SESSION['Authenticated'] = true;
       
         $_SESSION['curUser']['account'] = $row['account'];
         $_SESSION['curUser']['UID'] = $row['UID'];
@@ -85,7 +85,6 @@ try{
       catch(PDOException $e){
         throw new Exception($e->getMessage());
       }
-
       //陳 判斷是否為剛進入 connect with search "action_page line 69"
       $_SESSION['begin']=true;
     }

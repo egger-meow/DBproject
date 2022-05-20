@@ -1,6 +1,6 @@
 <?php
 session_start();
-$_SESSION['Authenticated']=false;
+
 $dbservername='localhost';
 $dbname='acdb';
 $dbusername='root';
@@ -40,8 +40,8 @@ $dbpassword='';
                 $stmt=$conn->prepare("insert into shops values ($SID ,$UID, '$shopname' ,'$category' , ST_GeomFromText('POINT($longitude $latitude)') , '$phonNum');");
                 $stmt->execute();
 
-                $stmt=$conn->prepare("update users set identity = true where UID = $UID;");
-                $stmt->execute();
+                $stmt=$conn->prepare("update users set identity = true where UID =:UUID;");
+                $stmt->execute(array('UUID' => $UID));
                 $_SESSION['curUser']['identity'] = true;
                 $_SESSION['curUser']['SID'] = $SID;
 

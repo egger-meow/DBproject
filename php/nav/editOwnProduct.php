@@ -9,6 +9,9 @@ session_start();
 $productName = $_REQUEST['productName'] ;
 $price       = $_REQUEST['price'] ;
 $quantity    = $_REQUEST['quantity'] ;
+
+
+
   $conn = new PDO("mysql:host=$dbservername; dbname=$dbname", 
   $dbusername, $dbpassword);
   # set the PDO error mode to exception
@@ -41,7 +44,7 @@ $quantity    = $_REQUEST['quantity'] ;
         <body>
         <script>
         alert("$msg" )
-        window.location.replace("navShop.php")
+        
         </script> </body> </html>
     EOT;
   }

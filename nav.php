@@ -4,7 +4,7 @@
 <?php
     session_start();
     $_SESSION['ok'] = true;
-    1 != 2;
+
     /*fuck
     $account = $_SESSION['account'];
     $conn = new PDO('mysql:host=localhost;dbname=acdb', 'root', '');
@@ -18,7 +18,10 @@
     $geoloca = substr($geoloca, 6, strlen($geoloca)-6-1);
     $loca = explode(" ",$geoloca);
     */
-    $_SESSION['Authenticated']=false;
+    if(!$_SESSION['Authenticated']){
+        header('Location: index.php');
+    } 
+    
     $dbservername='localhost';
     $dbname='acdb';
     $dbusername='jonhou1203';
@@ -57,31 +60,40 @@
 
                     <button type="button " style="margin-left: 5px;" class=" btn btn-info " data-toggle="modal" data-target="#location">edit location</button>
                     <!--  -->              
-                    <div class="modal fade" id="location" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal fade" id="location" data-backdrop="static"  tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog  modal-sm">
                             <div class="modal-content">
-                                <form action="php/nav/edit_location.php" class="fh5co-form animate-box" data-animate-effect="fadeIn" method="post" >
+                                <form action="php/nav/edit_location.php" id="lonlatedit" class="fh5co-form animate-box" data-animate-effect="fadeIn" method="post" >
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     <h4 class="modal-title">edit location</h4>
                                 </div>
                                 <div class="modal-body">
                                     <label class="control-label " for="latitude">latitude</label>
-                                    <input name= lat type="text" class="form-control" id="latitude" placeholder="enter latitude" required="required" pattern="[-+]?[0-9]*\.?[0-9]*">
+                                    <input name= lat type="text" class="form-control" id="latitude" title="float from -90~90!" placeholder="enter latitude" required="required" pattern="[-+]?[0-9]*\.?[0-9]*">
                                     <br>
                                     <label class="control-label " for="longitude">longitude</label>
-                                    <input name= lon type="text" class="form-control" id="longitude" placeholder="enter longitude" required="required" pattern="[-+]?[0-9]*\.?[0-9]*">
+                                    <input name= lon type="text" class="form-control" id="longitude" title="float from -180~180!" placeholder="enter longitude" required="required" pattern="[-+]?[0-9]*\.?[0-9]*">
                                 </div>
                 
                                 <div class="modal-footer">
-                                    <input type="submit" value="Edit" class="btn btn-primary">
+                                    <button type="submit" id="editLonLanButton" class="btn btn-primary">Edit</button>
                                     <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Edit</button> -->
                                 </div>
                                 </form>
                             </div>
                         </div>
                     </div>
-                    
+                    <script>
+                           
+                        $("#lonlatedit").submit( (event)=>{
+                            if(parseFloat($("#latitude").val())>90||parseFloat($("#longitude").val())>180){
+                               event.preventDefault()
+                               alert("illegal loaction!")
+                            }
+                        })
+                      
+                    </script>
                     <!--  -->
                     walletbalance: <?php echo $_SESSION['curUser']['balance']; ?>
                     <!-- Modal -->
@@ -207,10 +219,10 @@
                                         $s=$conn->prepare("select ST_Distance_Sphere(POINT(:lon,:lat),location) from shops where SID=$value");
                                         $s->execute(array('lon' => $_SESSION['curUser']['longitude'],'lat' => $_SESSION['curUser']['latitude']  ));
                                         $dis = $s -> fetch()[0];
-                            
+                                       
                                         if($dis<100){$distance='near';}
                                         elseif($dis<10000){$distance = 'medium';}
-                                        elseif($dis<10000000){$distance = 'far';}
+                                        else{$distance = 'far';}
                                 //echo $dis;
                                 //echo "<br>";
                             ?>
@@ -285,7 +297,6 @@
 
                                                             $sql="select * FROM productimage WHERE PID=$PID";   //ggmow : fetch img from sql
                                                             $result = $conn->query($sql);                                                                                    
-
                                                             $productName = $product['productName'];
                                                             $price = $product['price'];
                                                             $quantity	 = $product['quantity'];                                                          
@@ -353,7 +364,7 @@
 <script>
     $(document).ready(function() {
         $("#logout").click(function() {
-            <?php echo $_SESSION['Authenticated']=false;?>
+            
             window.location.replace("index.php");
         });
     });

@@ -4,7 +4,7 @@ session_start();
 session_unset();
 # destroy the session 
 session_destroy();
-$_SESSION['Authenticated'] = false;
+
 
 require "php/shit/head.php";
 ?>
@@ -97,8 +97,8 @@ require "php/shit/head.php";
 
         $("#Account").change(function() {
 					$("#dulAccount").html('')
-						if(!/^[a-zA-Z]+$/.test( form.acc.value)&&$(this).val()!=''){
-							$("#invacc").html('account can only have letters!');
+						if(!/^[a-zA-Z0-9]+$/.test( form.acc.value)&&$(this).val()!=''){
+							$("#invacc").html('account can only have letters or numbers!');
 							return;
 						}
 						else{
@@ -157,8 +157,8 @@ require "php/shit/head.php";
 				)
 				$("#password").change(function() {
 					
-					if(!/^[a-zA-Z]+$/.test($(this).val())&&$(this).val()!=''){
-							$("#invpass").html('password can only have letters!').slideDown();
+					if(!/^[a-zA-Z0-9]+$/.test($(this).val())&&$(this).val()!=''){
+							$("#invpass").html('password can only have letters or numbers!').slideDown();
 						}
 						else{
 							$("#invpass").html('');
@@ -221,9 +221,7 @@ require "php/shit/head.php";
 							let k = responseObject.msg + "</br>"
 							$("#dulAccount").html(k)
 						}
-						else{
-							alert(responseObject.msg)
-						}
+						
 						if(form.pwd.value!=form.ppwd.value){
 							$("#difpwd").html('two password are different!');
 							

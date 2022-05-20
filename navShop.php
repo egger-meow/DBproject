@@ -17,6 +17,9 @@
     $geoloca = substr($geoloca, 6, strlen($geoloca)-6-1);
     $loca = explode(" ",$geoloca);
     */
+    if(!$_SESSION['Authenticated']){
+        header('Location: nav.php');
+    } 
     
     if(isset($_SESSION['upload'])){
         echo $_SESSION['upload'];
@@ -104,11 +107,11 @@
                         </div>
                         <div class="col-xs-2">
                             <label for="ex6">latitude</label>
-                            <input name="latitude" class="form-control" id="exlatitude" placeholder="121.00028167648875" type="text" required="required" >
+                            <input name="latitude" class="form-control" id="exlatitude" placeholder="121.00028167648875" type="text" pattern="[-+]?[0-9]*\.?[0-9]*" required="required" title="float from -90~90!">
                         </div>
                         <div class="col-xs-2">
                             <label for="ex8">longitude</label>
-                            <input name="longitude" class="form-control" id="exlongitude" placeholder="24.78472733371133" type="text" required="required" >
+                            <input name="longitude" class="form-control" id="exlongitude" placeholder="24.78472733371133" type="text" pattern="[-+]?[0-9]*\.?[0-9]*" required="required" title="float from -180~180!" >
                         </div>
                     </div>
                 </div>
@@ -123,28 +126,60 @@
 
             </form>
             <script>
-                $(document).ready(function() {
-                    $("#logout").click(function() {
-                        <?php echo $_SESSION['Authenticated']=false;?>
-                        window.location.replace("index.php");
-                    });
+              
+                $("#logout").click(function() {            
+                    window.location.replace("index.php");
                 });
+                
                 $(document).ready(function() {
                     $(".nav-tabs a").click(function() {
                         $(this).tab('show');
                     });
                 });
+
                 if(<?php echo $_SESSION['curUser']['identity']?>){       
                     $('#shopResSubmit').prop('disabled', true)    
                     $('#shopInformation .form-control').each(function(){
                         $(this).attr('readonly','readonly');
                     });
-                    $('#exshopname').attr('value', '<?php echo $_SESSION['curUser']['shop']['shopName']?>');
-                    $('#excategory').attr('value', '<?php echo $_SESSION['curUser']['shop']['category']?>');
-                    $('#exlatitude').attr('value', '<?php echo $_SESSION['curUser']['shop']['latitude']?>');
-                    $('#exlongitude').attr('value', '<?php echo $_SESSION['curUser']['shop']['longitude']?>');
+                    $('#exshopname').attr('value', '<?php if($_SESSION['curUser']['identity'])echo $_SESSION['curUser']['shop']['shopName']?>');
+                    $('#excategory').attr('value', '<?php if($_SESSION['curUser']['identity'])echo $_SESSION['curUser']['shop']['category']?>');
+                    $('#exlatitude').attr('value', '<?php if($_SESSION['curUser']['identity'])echo $_SESSION['curUser']['shop']['latitude']?>');
+                    $('#exlongitude').attr('value','<?php if($_SESSION['curUser']['identity'])echo $_SESSION['curUser']['shop']['longitude']?>');
                     $('#menu1 h3:first-child').html('Your business')
+                }
+                
+                $(window).keyup(function(e){
+                    if($("#exshopname").is(":focus")){
+                        if(<?php echo $_SESSION['curUser']['identity']?>) return
+                        const request = new XMLHttpRequest();
+	
+                        request.onload = () => {
+                            let responseObject = null;
+                            try {
+                                responseObject = JSON.parse(request.responseText);
+                            } catch (e) {
+                                console.error(request.responseText);
+                            }
 
+                            if (responseObject) {
+                                
+                                handleResponse(responseObject);
+                            }
+
+                        };
+                        const requestData = `shopname=${$("#exshopname").val()}`;
+                        request.open('post', 'php/nav/checkShopnameExist.php');
+                        request.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+                        request.send(requestData);
+                    }
+                        
+                })
+                function handleResponse(responseObject){
+                    $("#shopResErrMsg").html('')
+                    if(!responseObject.ok){
+                        $("#shopResErrMsg").html(responseObject.msg)
+                    }
                 }
                 
             </script>

@@ -7,7 +7,7 @@ $dbpassword='pass9704';
 //session_start();
   $conn = new PDO("mysql:host=$dbservername; dbname=$dbname", 
   $dbusername, $dbpassword);
-  # set the PDO error mode to exception
+   # set the PDO error mode to exception
   $conn->setAttribute(PDO::ATTR_ERRMODE, 
   PDO::ERRMODE_EXCEPTION);
 
@@ -24,7 +24,7 @@ $dbpassword='pass9704';
 
       $sql="select * FROM productimage WHERE PID=$PID";
       $result = $conn->query($sql);
-    
+   
       
       //查詢結果     
 
@@ -35,13 +35,21 @@ $dbpassword='pass9704';
                 var quantity= $("#quantity$productName").val();
                 var price = $("#price$productName").val();
                 var productName = '$productName';
-              
+                // if(!quantity ||!price){
+                //   alert("empty column is illegal!")
+                //   $("#toEdit$productName"").click()
+                //   return
+                // }
+                if(!(/^\d+$/.test(quantity)&&/^\d+$/.test(price))){
+                  $("#shopResErrMsg$productName").html('illegal input!!')
+                  return
+                }
                 $("#shopResErrMsg$productName").load("php/nav/editOwnProduct.php", {
                     quantity :quantity,
                     price :price,
                     productName :productName
                 });
-                
+               
                 
             });   
           });
@@ -64,11 +72,11 @@ $dbpassword='pass9704';
       
       </script>
         <tr>
-            <div id="shopResErrMsg$productName"></div>
+            
             <th scope="row">$count</th>
             <td>
-      EOT;
-     
+      
+    EOT; 
       if ($result->rowCount()>0) {
         $row = $result->fetch();
         $img=$row['image'];
@@ -82,9 +90,11 @@ $dbpassword='pass9704';
 
             <td>$price </td>
             <td>$quantity </td>
-            <td><button type="button" class="btn btn-info" data-toggle="modal" data-target="#$productName-1">
-                    Edit
-                </button></td>
+            <td>
+              <button type="button" class="btn btn-info" data-toggle="modal" id = "toEdit$productName" data-target="#$productName-1">
+              Edit
+              </button>
+            </td>
             <!-- Modal -->
             <div class="modal fade" id="$productName-1" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -105,23 +115,27 @@ $dbpassword='pass9704';
                               </div>
                               <div class="col-xs-6">
                                 <label for="ex41">quantity</label>
-                                <input name="quantity" value="$quantity" id="quantity$productName" class="form-control"  type="text" pattern="^[0-9]+$ required>
+                                <input name="quantity" value="$quantity" id="quantity$productName" class="form-control"  type="text" pattern="^[0-9]+$" required>
                               </div>
                             </div>
                           </div> 
+                          
                           <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="edit$productName">Edit</button>
+                          <p id="shopResErrMsg$productName" style="color : red"></p>
+                            <button type="submit" class="btn btn-primary"    id="edit$productName">Edit</button>
                           </div>                    
                     </div>
                 </div>
             </div>
             <td><button type="button" class="btn btn-danger delete" id="del$productName">Delete</button></td>
         </tr>
-      EOT;
+
+        EOT;
       $count ++;
 
     }
   }
+  
   catch(PDOException $e){
     $MSG = $e ->getMessage();
     echo <<<EOT

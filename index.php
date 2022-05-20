@@ -4,7 +4,7 @@ session_start();
 session_unset(); 
 # destroy the session 
 session_destroy();
-$_SESSION['Authenticated']=false;
+
 require "php/shit/head.php"
 ?>
 
