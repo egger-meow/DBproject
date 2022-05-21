@@ -40,7 +40,11 @@ $dbpassword='pass9704';
                 //   $("#toEdit$productName"").click()
                 //   return
                 // }
-                if(!(/^\d+$/.test(quantity)&&/^\d+$/.test(price))){
+                if(quantity.length==0||price.length==0){
+                  $("#shopResErrMsg$productName").html('please fill all information!!')
+                  return
+                }
+                if(!(/^\d+$/.test(quantity)&&/^\d+$/.test(price))){                 
                   $("#shopResErrMsg$productName").html('illegal input!!')
                   return
                 }
