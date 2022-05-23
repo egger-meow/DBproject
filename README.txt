@@ -1,10 +1,11 @@
 
-TITLE: 
-Component 01 - Minimal and Clean Sign up / Login and Forgot Form by FreeHTML5.co
 
-AUTHOR:
 DESIGNED & DEVELOPED by FreeHTML5.co
+//------------------------------------------------------------------------------
 
+changes:
+1. clean up whole file set a litte bit.
+2. create all tabs (blank)
 
 //------------------------------------------------------------------------------
 
@@ -22,6 +23,8 @@ transaction{
 }
  
 //------------------------------------------------------------------------------
+ 
+ 
  
  
 Website: http://freehtml5.co/
