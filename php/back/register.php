@@ -21,12 +21,12 @@ try {
     if (empty($_POST['lon']) || empty($_POST['lat']) || empty($_POST['pnum']) || empty($_POST['nname']) || empty($_POST['pwd']) || empty($_POST['ppwd'])|| empty($_POST['acc']))
     throw new Exception('Please input all the information.');
 
-    $nickName  = $_POST['nname']  ;
-    $pwd       = $_POST['pwd']    ;
-    $ppwd      = $_REQUEST['ppwd'];
-    $account   = $_REQUEST['acc'] ;
-    $latitude  = $_REQUEST['lat'] ;
-    $longitude = $_REQUEST['lon'];
+    $nickName    = $_POST['nname']  ;
+    $pwd         = $_POST['pwd']    ;
+    $ppwd        = $_REQUEST['ppwd'];
+    $account     = $_REQUEST['acc'] ;
+    $latitude    = $_REQUEST['lat'] ;
+    $longitude   = $_REQUEST['lon'];
     $phonenumber = $_REQUEST['pnum'] ;
 
 
@@ -58,15 +58,14 @@ try {
         $stmt->execute();
       
         }catch(PDOException $e){
-            
+            throw new Exception("Something went wrong.");
         }
 
         $_SESSION['Authenticated']=true;
-        
-        
+              
     }
     else
-    throw new Exception("Account used.");
+        throw new Exception("Account used.");
 }
 
 catch(Exception $e){
@@ -75,6 +74,7 @@ catch(Exception $e){
     session_unset(); 
     session_destroy();   
 }
+
 echo json_encode(
     array(
         'ok'       => $ok,

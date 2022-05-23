@@ -8,7 +8,10 @@ session_destroy();
 
 require "php/shit/head.php";
 ?>
- <script src="js/fuck.js"></script>
+
+
+
+<script src="js/fuck.js"></script>
 <style>
     .form-messages {
         background-color: rgb(255, 232, 232);
@@ -22,12 +25,10 @@ require "php/shit/head.php";
         max-width: 250px;
     }
 </style>
-<div class="container">
 
+<div class="container">
 	<div class="row">
 		<div class="col-md-4 col-md-offset-4">
-
-
 			<!-- Start Sign In Form -->
 			<div class="fh5co-form animate-box form" data-animate-effect="fadeIn">
 				<h2>Sign Up</h2>
@@ -37,39 +38,40 @@ require "php/shit/head.php";
 				<ul style="color: red" id="form-messages"></ul>
 				<div class="form-group">
 					<label for="name" class="sr-only">Name</label>
-					<input name="nname" type="text" class="form-control" id="name" placeholder="Name" autocomplete="on">
+					<input name="nname" type="text" class="form-control" id="name" placeholder="Name" autocomplete="on" pattern="^[a-zA-Z]*$" title="letters only!" required>
+					<span style="color: red" id="invname" ></span>
 				</div>
 				<div class="form-group">
 					<label for="name" class="sr-only">phonenumber</label>
-					<input name="pnum" type="text" class="form-control" id="phonenumber" placeholder="PhoneNumber" autocomplete="on">
+					<input name="pnum" type="text" class="form-control" id="phonenumber" placeholder="PhoneNumber" autocomplete="on"required>
 					<span style="color: red" id="invpnum" ></span>
 				</div>
 				<div class="form-group">
 					<label for="Account" class="sr-only">Account</label>
-					<input name="acc" type="text" class="form-control" id="Account" placeholder="Account" autocomplete="on">
+					<input name="acc" type="text" class="form-control" id="Account" placeholder="Account" autocomplete="on"required>
 					<span style="color: red" id="dulAccount"></span>
 					<span style="color: red" id="invacc" ></span>
 
 				</div>
 				<div class="form-group">
 					<label for="password" class="sr-only">Password</label>
-					<input name="pwd" type="password" class="form-control" id="password" placeholder="Password" autocomplete="on">
+					<input name="pwd" type="password" class="form-control" id="password" placeholder="Password" autocomplete="on"required>
 					<span style="color: red" id="invpass" ></span>
 				</div>
 				<div class="form-group">
 					<label for="re-password" class="sr-only">Re-type Password</label>
-					<input name="ppwd" type="password" class="form-control" id="re-password" placeholder="Re-type Password" autocomplete="on">
+					<input name="ppwd" type="password" class="form-control" id="re-password" placeholder="Re-type Password" autocomplete="on"required>
 					<span style="color: red" id="difpwd"></span>
 					
 				</div>
 				<div class="form-group">
 					<label for="latitude" class="sr-only">latitude</label>
-					<input name="lat" type="text" class="form-control" id="latitude" placeholder="Latitude" autocomplete="on">
+					<input name="lat" type="text" class="form-control" id="latitude" placeholder="Latitude" autocomplete="on"required>
 					<span style="color: red" id="invlat"></span>
 				</div>
 				<div class="form-group">
 					<label for="longitude" class="sr-only">longitude</label>
-					<input name="lon" type="text" class="form-control" id="longitude" placeholder="longitude" autocomplete="on">
+					<input name="lon" type="text" class="form-control" id="longitude" placeholder="longitude" autocomplete="on"required>
 					<span style="color: red" id="invlon"></span>
 				</div>
 
@@ -95,52 +97,64 @@ require "php/shit/head.php";
 					mess:document.getElementById('form-messages')
 				};
 
+				$("#name").change( ()=>{
+					if(/^[a-zA-Z ]*$/.test($("#name").val())){
+						$("#invname").html('name can only have letters!');
+					}			
+					else{
+						$("#invname").html('');
+					}		 
+				})
+
         $("#Account").change(function() {
 					$("#dulAccount").html('')
-						if(!/^[a-zA-Z0-9]+$/.test( form.acc.value)&&$(this).val()!=''){
-							$("#invacc").html('account can only have letters or numbers!');
-							return;
-						}
-						else{
-							$("#invacc").html('');
-						}
-						const request = new XMLHttpRequest();
-						
-					
-						request.onload = () => {
-							let responseObject = null;
-							try {
-								responseObject = JSON.parse(request.responseText);
-							} catch (e) {
-								console.error(request.responseText);
-							}
+					if(!/^[a-zA-Z0-9]+$/.test( form.acc.value)&&$(this).val()!=''){
 
-							if (responseObject) {							
-								handleAcc(responseObject);
-							}
+						$("#invacc").html('account can only have letters or numbers!');
+						return;
 
-						};
-						const requestData = `acc=${form.acc.value}`;
-						request.open('post', 'php/back/checkAcc.php');
-						request.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
-						request.send(requestData);
+					} else {
+
+						$("#invacc").html('');
+
 					}
-				)
-				$("#phonenumber").change(function() {
+
+					const request = new XMLHttpRequest();
+									
+					request.onload = () => {
+						let responseObject = null;
+
+						try {
+							responseObject = JSON.parse(request.responseText);
+						} catch (e) {
+							console.error(request.responseText);
+						}
+
+						if (responseObject) {							
+							handleAcc(responseObject);
+						}
+
+					};
 					
-					if((!/^[0-9]+$/.test($(this).val())||$(this).val().length!=10)&&$(this).val()!=''){
-						$("#invpnum").html('phone number must be 10 digit numbers!').slideDown();
-					}
-					else{
-						$("#invpnum").html('');
-					}					
+					const requestData = `acc=${form.acc.value}`;
+					request.open('post', 'php/back/checkAcc.php');
+					request.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+					request.send(requestData);
+
+					
 				})
-				$("#longitude").change(function() {
-					
+				$("#phonenumber").change(function() {					
+
+					if((!/^[0-9]+$/.test($(this).val())||$(this).val().length!=10)&&$(this).val()!='')
+						$("#invpnum").html('phone number must be 10 digit numbers!').slideDown();
+					else 
+						$("#invpnum").html('');
+								
+				})
+				$("#longitude").change(function() {					
 						if((!isFloat($(this).val())&&$(this).val()!='')||parseFloat($(this).val())>180||parseFloat($(this).val())<-180){
 							$("#invlon").html('illegal longitude!').slideDown();
-						}
-						else{
+						}	else {					
 							$("#invlon").html('');
 						}
 					}
@@ -157,10 +171,9 @@ require "php/shit/head.php";
 				)
 				$("#password").change(function() {
 					
-					if(!/^[a-zA-Z0-9]+$/.test($(this).val())&&$(this).val()!=''){
+					if (!/^[a-zA-Z0-9]+$/.test($(this).val())&&$(this).val()!='') {
 							$("#invpass").html('password can only have letters or numbers!').slideDown();
-						}
-						else{
+						} else {						
 							$("#invpass").html('');
 						}
 					}
@@ -177,8 +190,7 @@ require "php/shit/head.php";
 							console.error(request.responseText);
 						}
 
-						if (responseObject) {
-							
+						if (responseObject) {							
 							handleResponse(responseObject);
 						}
 
@@ -189,7 +201,6 @@ require "php/shit/head.php";
 					request.send(requestData);
 				});
         function handleAcc(responseObject){
-
 					if (!responseObject.ok){
 						if(responseObject.msg=='Account used.'){
 							let k = responseObject.msg + "</br>"
@@ -199,52 +210,64 @@ require "php/shit/head.php";
 				}
 				function handleResponse(responseObject) {
 					$("#dulAccount").html('')
+					if (!($("#invname").is(':empty')&&$("#invpnum").is(':empty')&&$("#invacc").is(':empty')&&$("#invlon").is(':empty')&&$("#invlat").is(':empty')&&$("#invpass").is(':empty'))){
+
+						const li = document.createElement('li');
+						
+						form.mess.style.display = 'block';
+						return;
+
+					}
 					if (responseObject.ok) {
+
 						alert("successfully Created!");
 						window.location.replace("index.php");
-					} else {
-				    
-					
+
+					} 
+					else {
+
 						while (form.mess.firstChild) {
+
 							form.mess.removeChild(form.mess.firstChild);
+
 						}
 
 						if(responseObject.msg=='Please input all the information.'){
 						
-							const li = document.createElement('li');
+							const li       = document.createElement('li');
 							li.textContent = responseObject.msg;
 							form.mess.appendChild(li);
-
 							form.mess.style.display = 'block';
-						}
-						else if(responseObject.msg=='Account used.'){
+
+						} else if (responseObject.msg == 'Account used.') {		
+
 							let k = responseObject.msg + "</br>"
 							$("#dulAccount").html(k)
-						}
-						
-						if(form.pwd.value!=form.ppwd.value){
+
+						}				
+
+						if(form.pwd.value!=form.ppwd.value)
 							$("#difpwd").html('two password are different!');
-							
-						}
-						else{
+						else 
 							$("#difpwd").html('');
-						}
-					
-						if(!($("#invpnum").is(':empty')&&$("#invacc").is(':empty')&&$("#invlon").is(':empty')&&$("#invlat").is(':empty')&&$("#invpass").is(':empty'))){
+
+						if (!($("#invpnum").is(':empty')&&$("#invacc").is(':empty')&&$("#invlon").is(':empty')&&$("#invlat").is(':empty')&&$("#invpass").is(':empty'))) {
+
 							const li = document.createElement('li');
 							li.textContent = 'illegal format!';
 							form.mess.appendChild(li);
 							form.mess.style.display = 'block';
-						}
-				
+
+						}				
 					}
 				}
 				
 				$(window).keyup(function(e){
+
 					  console.log(e.char);
 						$("#Account").change();
-				})
-       
+
+				})      
 			</script>
 			<!-- END Sign In Form -->
 		</div>

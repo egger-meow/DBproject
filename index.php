@@ -10,7 +10,6 @@ require "php/shit/head.php"
 
 
     <div class="container">
-
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
                 <!-- Start Sign In Form -->
@@ -36,18 +35,18 @@ require "php/shit/head.php"
                     </div>
                 </div>
                 <script>
+
                     const form = {
-                        acc: document.getElementsByName('acc')[0],
-                        pwd: document.getElementsByName('pwd')[0],
+                        acc:     document.getElementsByName('acc')[0],
+                        pwd:     document.getElementsByName('pwd')[0],
                         message: document.getElementById('message')
                     };
-
-
                     
                     $("#fuck").click(function(){
                         const request = new XMLHttpRequest();
                     
                         request.onload = () =>{
+
                             let responseObject = null;
                             try {
                                 responseObject = JSON.parse(request.responseText);
@@ -81,14 +80,12 @@ require "php/shit/head.php"
                             li.textContent = responseObject.msg;
                             form.message.appendChild(li);
                             form.message.style.display = "block";
+
                         }
                     }
                     $(window).keydown(function(e){
                         if(e.keyCode==13){
                             $( "#fuck" ).click();
-                        }
-                        else if(e.keyCode==16){
-                            window.location.replace("signUp.php");
                         }
                     })
                 </script>
@@ -102,7 +99,4 @@ require "php/shit/head.php"
         </div>
     </div>
 
-
-
-
-	<?php  require "php/shit/foot.php";?>
+<?php  require "php/shit/foot.php";?>
