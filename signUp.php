@@ -137,7 +137,7 @@ require "php/shit/head.php";
 					};
 					
 					const requestData = `acc=${form.acc.value}`;
-					request.open('post', 'php/back/checkAcc.php');
+					request.open('post', 'php/account/checkAcc.php');
 					request.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
 					request.send(requestData);
 
@@ -196,7 +196,7 @@ require "php/shit/head.php";
 
 					};
 					const requestData = `nname=${form.nname.value}&pnum=${form.pnum.value}&acc=${form.acc.value}&pwd=${form.pwd.value}&ppwd=${form.ppwd.value}&lat=${form.lat.value}&lon=${form.lon.value}`;
-					request.open('post', 'php/back/register.php');
+					request.open('post', 'php/account/register.php');
 					request.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
 					request.send(requestData);
 				});

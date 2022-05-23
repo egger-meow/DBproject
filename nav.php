@@ -5,32 +5,14 @@
     session_start();
     $_SESSION['ok'] = true;
 
-    /*fuck
-    $account = $_SESSION['account'];
-    $conn = new PDO('mysql:host=localhost;dbname=acdb', 'root', '');
-    $stmt=$conn->prepare("select * from users where account=:acc");
-    $stmt->execute(array('acc' => $account));
-    $row = $stmt->fetch();
-    $stmt=$conn->prepare("select ST_AsText(location) from users where account=:acc");
-    $stmt->execute(array('acc' => $account));
-    //找location
-    $geoloca = $stmt->fetch()["ST_AsText(location)"];
-    $geoloca = substr($geoloca, 6, strlen($geoloca)-6-1);
-    $loca = explode(" ",$geoloca);
-    */
     if(!$_SESSION['Authenticated']){
         header('Location: index.php');
     } 
     
-    $dbservername='localhost';
-    $dbname='acdb';
-    $dbusername='jonhou1203';
-    $dbpassword='pass9704';
-    $conn = new PDO("mysql:host=$dbservername; dbname=$dbname", $dbusername, $dbpassword);
-    # set the PDO error mode to exception
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    require "php/shit/dbConnect.php";
+
     $lo = $_SESSION['curUser']['longitude'];
-    $la = $_SESSION['curUser']['latitude']
+    $la = $_SESSION['curUser']['latitude'];
     
 ?>
 
@@ -48,7 +30,10 @@
 
     <ul class="nav nav-tabs">
         <li class="active"><a href="nav.php">Home</a></li>
-        <li><a href="navShop.php">shop</a></li>
+        <li><a href="navShop.php">Shop</a></li>
+        <li><a href="navMyOrder.php">My Order</a></li>
+        <li><a href="navShopOrder.php">Shop Order</a></li>
+        <li><a href="navTranRecord.php">Transaction Record</a></li>
     </ul>
 
     <div class="tab-content">
@@ -180,7 +165,6 @@
                             <input name="category" type="text" list="categorys" class="form-control" id="category" placeholder="Enter shop category">
                             <datalist id="categorys">
                                 <option value="fast food">
-
                             </datalist>
                         </div>
                         <button type="submit" style="margin-left: 18px;" class="btn btn-primary">Search</button>
@@ -341,41 +325,17 @@
                         </div>
                     </div>
                 
-                
-
                     <?php
                             }
                             }
                     ?>
 
-
                 </div>
 
             </div>
         </div>
-        
-        
-
-
     </div>
 </div>
 
-
-<!-- Option 1: Bootstrap Bundle with Popper -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
-<script>
-    
-    $(document).ready(function() {
-        $(".nav-tabs a").click(function() {
-            $(this).tab('show');
-        });
-    });
-</script>
-
-<!-- Option 2: Separate Popper and Bootstrap JS -->
-<!--
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
-    -->
 
 <?php require "php/shit/foot.php"; ?>

@@ -4,19 +4,7 @@
 <?php
     session_start();
     $_SESSION['ok'] = true;
-    /*
-    $account = $_SESSION['account'];
-    $conn = new PDO('mysql:host=localhost;dbname=acdb', 'root', '');
-    $stmt=$conn->prepare("select * from users where account=:acc");
-    $stmt->execute(array('acc' => $account));
-    $row = $stmt->fetch();
-    $stmt=$conn->prepare("select ST_AsText(location) from users where account=:acc");
-    $stmt->execute(array('acc' => $account));
-    //找location
-    $geoloca = $stmt->fetch()["ST_AsText(location)"];
-    $geoloca = substr($geoloca, 6, strlen($geoloca)-6-1);
-    $loca = explode(" ",$geoloca);
-    */
+ 
     if(!$_SESSION['Authenticated']){
         header('Location: nav.php');
     } 
@@ -37,11 +25,15 @@
         </div>
     </div>
 </nav>
+
 <div class="container">
-<body>
+
     <ul class="nav nav-tabs">
         <li><a href="nav.php">Home</a></li>
-        <li class="active"><a href="navShop.php">shop</a></li>
+        <li class="active"><a href="navShop.php">Shop</a></li>
+        <li><a href="navMyOrder.php">My Order</a></li>
+        <li><a href="navShopOrder.php">Shop Order</a></li>
+        <li><a href="navTranRecord.php">Transaction Record</a></li>
     </ul>
     
     <div class="tab-content">
@@ -68,7 +60,7 @@
                         }
 
 
-                        $("#shopResErrMsg").load("php/nav/shopRegister.php", {
+                        $("#shopResErrMsg").load("php/shop/shopRegister.php", {
                             shopname :shopname,
                             category :category,
                             latitude :latitude,
@@ -95,7 +87,7 @@
                 
             </script>
 
-            <form action="php/nav/shopRegister.php" class="fh5co-form animate-box" data-animate-effect="fadeIn" method="post"  target="nm_iframe" id="shopResForm">
+            <form action="php/shop/shopRegister.php" class="fh5co-form animate-box" data-animate-effect="fadeIn" method="post"  target="nm_iframe" id="shopResForm">
 
                 <div class="form-group " id="shopInformation">
                     <div class="row">
@@ -128,8 +120,7 @@
 
             </form>
             <script>
-              
-                
+                              
                 $(document).ready(function() {
                     $(".nav-tabs a").click(function() {
                         $(this).tab('show');
@@ -168,7 +159,7 @@
 
                         };
                         const requestData = `shopname=${$("#exshopname").val()}`;
-                        request.open('post', 'php/nav/checkShopnameExist.php');
+                        request.open('post', 'php/shop/checkShopnameExist.php');
                         request.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
                         request.send(requestData);
                     }
@@ -190,7 +181,7 @@
             ?>
             <h3>ADD</h3>
    
-            <form class="form-group " method="post" action="php/back/uploadProduct.php" Enctype="multipart/form-data" id= "addProForm">
+            <form class="form-group " method="post" action="php/shop/uploadProduct.php" Enctype="multipart/form-data" id= "addProForm">
                 <div class="row">
 
                     <div class="col-xs-6">
@@ -240,20 +231,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <iframe name="dummyframe" id="dummyframe" style="display: none;"><?php require "php/nav/displayOwnProduct.php"; ?></iframe>
-                        <?php require "php/nav/displayOwnProduct.php"; ?>
+                        <iframe name="dummyframe" id="dummyframe" style="display: none;"><?php require "php/shop/displayOwnProduct.php"; ?></iframe>
+                        <?php require "php/shop/displayOwnProduct.php"; ?>
                         </tbody>
                     </table>
                 </div>
-
             </div>
         </div>
-
-
-
     </div>
 </div>
-</body>
+
 
 
 <!-- Option 1: Bootstrap Bundle with Popper -->

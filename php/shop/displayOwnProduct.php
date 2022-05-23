@@ -48,7 +48,7 @@ $dbpassword='pass9704';
                   $("#shopResErrMsg$productName").html('illegal input!!')
                   return
                 }
-                $("#shopResErrMsg$productName").load("php/nav/editOwnProduct.php", {
+                $("#shopResErrMsg$productName").load("php/shop/editOwnProduct.php", {
                     quantity :quantity,
                     price :price,
                     productName :productName
@@ -65,7 +65,7 @@ $dbpassword='pass9704';
               
               
               if(confirm("remove $productName?")){
-                $("#shopResErrMsg$productName").load("php/nav/deleteOwnProduct.php", {
+                $("#shopResErrMsg$productName").load("php/shop/deleteOwnProduct.php", {
                   quantity :quantity,
                   price :price,
                   productName :productName

@@ -60,7 +60,7 @@ require "php/shit/head.php"
 
                        };
                        const requestData = `acc=${form.acc.value}&pwd=${form.pwd.value}`;
-                       request.open('post','php/back/login.php');
+                       request.open('post','php/account/login.php');
                        request.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
                        request.send(requestData);
                     });
