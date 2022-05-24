@@ -245,9 +245,11 @@
                         foreach($_SESSION['Shops'] as $keys => $value){
                             $s=$conn->prepare("select * from shops where SID=$value");
                             $s->execute();
-                            $shop = $s->fetch();
+                            $shop     = $s->fetch();
                             $shopname = $shop['shopname'];
+                            $SID      = $shop['SID'];
                     ?>
+
                     <div class="modal fade" id="<?php echo $shopname ;?>" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog">
 
@@ -259,21 +261,18 @@
                                 </div>
                                 <div class="modal-body">
                                     <!--  -->
-
                                     <div class="row">
                                         <div class="  col-xs-12">
                                             <table class="table" style=" margin-top: 15px;">
+
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">#</th>
                                                         <th scope="col">Picture</th>
-
                                                         <th scope="col">meal name</th>
-
                                                         <th scope="col">price</th>
                                                         <th scope="col">Quantity</th>
-
-                                                        <th scope="col">Order check</th>
+                                                        <th scope="col" id="orderQ<?=$SID?>">Order</th>
                                                     </tr>
                                                 </thead>
                                         
@@ -309,8 +308,36 @@
                                                         <td><?php echo $price;?></td>
                                                         <td><?php echo $quantity;?></td>
 
-                                                        <td> <input type="checkbox" id="cbox1" value="<?php echo $productName;?>"></td>
+                                                        <td class="row"> 
+                                                            <button type="button" id= "minus<?=$PID;?>" class="btn btn-default col-md-3 minus<?=$SID;?>">-</button>
+                                                            <div id="quantity<?=$PID;?>" class="col-md-3">0</div>
+                                                            <button type="button" id= "plus<?=$PID;?>" class="btn btn-default col-md-3 plus<?=$SID;?>">+</button>
+                                                        </td>
                                                     </tr>
+                                                    <script>
+                                                        
+                                                        $("#minus<?=$PID;?>").click( ()=>{
+
+                                                            let k = parseInt($("#quantity<?=$PID;?>").html());                                                           
+                                                            if(k == 0) return     
+
+                                                            let v = k-1;
+                                                            $("#quantity<?=$PID;?>").html(v.toString())
+
+                                                        })
+
+                                                        $("#plus<?=$PID;?>").click( ()=>{
+  
+                                                            let k = parseInt($("#quantity<?=$PID;?>").html());
+                                                            if(k == <?=$quantity;?>) return
+
+                                                            let v = k+1;
+                                                            $("#quantity<?=$PID;?>").html(v.toString())
+
+                                                        })
+                                                        
+                                                    </script>
+                                                   
                                                     <?php
                                                         }
                                                     ?>
@@ -319,12 +346,30 @@
                                         </div>
 
                                     </div>
-
-
                                     <!--  -->
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Order</button>
+                                    <button type="button" value="0" class="btn btn-default nowave" id="CalPriceBtn<?=$PID;?>">calculate the price</button>
+                                    <script>
+                                    $("#CalPriceBtn<?=$PID;?>").click( ()=>{
+                                        if ($("#CalPriceBtn<?=$PID;?>").html() != 'order'){
+
+                                            $(".plus<?=$SID;?>").hide()
+                                            $(".minus<?=$SID;?>").hide()
+                                            $("#orderQ<?=$SID?>").html("order quantity")
+                                            $("#CalPriceBtn<?=$PID;?>").html('order');
+
+                                        } else {
+
+                                            $(".plus<?=$SID;?>").show()
+                                            $(".minus<?=$SID;?>").show()
+                                            $("#orderQ<?=$SID?>").html("order")
+                                            $("#CalPriceBtn<?=$PID;?>").html('calculate the price');
+
+                                        }
+
+                                    })
+                                    </script>
                                 </div>
                             </div>
 
@@ -333,7 +378,7 @@
                 
                     <?php
                             }
-                            }
+                        }
                     ?>
 
                 </div>
@@ -344,14 +389,21 @@
 </div>
 
 <script>
+
+    
+                                   
     $('li.dropdown').mouseover(function () {
 
         if ($(document).width() > 767)
-            $(this).addClass('open');
+            $(this).addClass('open')
+
     }).mouseout(function () {
+
         if ($(document).width() > 767)
-            $(this).removeClass('open');
+            $(this).removeClass('open')
+
     });
+
 </script>
 
 <?php require "php/shit/foot.php"; ?>
