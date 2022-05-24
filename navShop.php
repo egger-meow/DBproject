@@ -30,9 +30,15 @@
 
     <ul class="nav nav-tabs">
         <li><a href="nav.php">Home</a></li>
-        <li class="active"><a href="navShop.php">Shop</a></li>
+        <li class="dropdown active">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+               aria-haspopup="true" aria-expanded="true">My shop<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="navShop.php">info.</a></li>
+                <li><a href="navShopOrder.php">orders</a></li>
+            </ul>
+        </li>       
         <li><a href="navMyOrder.php">My Order</a></li>
-        <li><a href="navShopOrder.php">Shop Order</a></li>
         <li><a href="navTranRecord.php">Transaction Record</a></li>
     </ul>
     
@@ -241,6 +247,16 @@
     </div>
 </div>
 
+<script>
+    $('li.dropdown').mouseover(function () {
+
+        if ($(document).width() > 767)
+            $(this).addClass('open');
+    }).mouseout(function () {
+        if ($(document).width() > 767)
+            $(this).removeClass('open');
+    });
+</script>
 
 
 <!-- Option 1: Bootstrap Bundle with Popper -->
