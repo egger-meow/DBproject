@@ -20,6 +20,7 @@ transaction{
   1.add value (1筆)     (Hou) 
   2.下order (2筆)       (Hou) 
   3.cancel order (2筆)  (legun)
+  4.show transaction    (Hou) 
 }
  
 //------------------------------------------------------------------------------
