@@ -11,15 +11,15 @@ changes:
 
 HW3基本作業流程:()
 
-     (Hou)            (Hou)          (Hou)            (legun)
+     (Hou)            (Hou)          (legun)            (legun)
 menu 商品數量和儲存 -> 建ORDER ->  賣家ORDER顯示 -> 賣家處理(DONE OR CANCLE)
                               ->  買家ORDER顯示 -> 買家處理(CANCEL)
-                                     (Hou)            (legun)
+                                     (legun)            (legun)
   (legun)
 transaction{             
-  1.add value (1筆) 
-  2.下order (2筆)    
-  3.cancel order (2筆)
+  1.add value (1筆)     (Hou) 
+  2.下order (2筆)       (Hou) 
+  3.cancel order (2筆)  (legun)
 }
  
 //------------------------------------------------------------------------------
