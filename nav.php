@@ -179,7 +179,7 @@
                 </form>
             </div>
 
-            <!--搜尋結果      -->
+            <!--搜尋結果      -->         
             <div class="row">
                 <div class="  col-xs-8">
                     <table class="table" style=" margin-top: 15px;">
@@ -293,7 +293,9 @@
                                                             $quantity	 = $product['quantity'];                                                          
                                                     ?>                           
                                                     <tr>
+                                                        
                                                         <th scope="row"><?php echo $id;?></th>
+
                                                         <td>
                                                             <?php if ($result->rowCount()>0) {
                                                                 $row = $result->fetch();
@@ -303,36 +305,44 @@
                                                             }?>
                                                         </td>
 
-                                                        <td><?php echo $productName;?></td>
-
-                                                        <td><?php echo $price;?></td>
-                                                        <td><?php echo $quantity;?></td>
+                                                        <td>                      <?php echo $productName;?> </td>  
+                                                        <td id="price<?=$PID;?>"> <?php echo $price;?>       </td>
+                                                        <td>                      <?php echo $quantity;?>    </td>
 
                                                         <td class="row"> 
                                                             <button type="button" id= "minus<?=$PID;?>" class="btn btn-default col-md-3 minus<?=$SID;?>">-</button>
                                                             <div id="quantity<?=$PID;?>" class="col-md-3">0</div>
                                                             <button type="button" id= "plus<?=$PID;?>" class="btn btn-default col-md-3 plus<?=$SID;?>">+</button>
                                                         </td>
+
                                                     </tr>
                                                     <script>
                                                         
                                                         $("#minus<?=$PID;?>").click( ()=>{
 
-                                                            let k = parseInt($("#quantity<?=$PID;?>").html());                                                           
-                                                            if(k == 0) return     
+                                                            let k           = parseInt($("#quantity<?=$PID;?>").html());  
+                                                            let curSubtotal = parseInt($("#Subtotal<?=$SID;?>").html());  
+                                                            
+                                                            if(k == 0) return   
 
+                                                            let newSubtotal = curSubtotal - parseInt($("#price<?=$PID;?>").html())
                                                             let v = k-1;
+                                                            
                                                             $("#quantity<?=$PID;?>").html(v.toString())
-
+                                                            $("#Subtotal<?=$SID;?>").html(newSubtotal.toString())
                                                         })
 
                                                         $("#plus<?=$PID;?>").click( ()=>{
-  
-                                                            let k = parseInt($("#quantity<?=$PID;?>").html());
-                                                            if(k == <?=$quantity;?>) return
+                                                            let k           = parseInt($("#quantity<?=$PID;?>").html());  
+                                                            let curSubtotal = parseInt($("#Subtotal<?=$SID;?>").html());  
+                                                            
+                                                            if(k == <?=$quantity;?>) return 
 
+                                                            let newSubtotal = curSubtotal + parseInt($("#price<?=$PID;?>").html())
                                                             let v = k+1;
+                                                            
                                                             $("#quantity<?=$PID;?>").html(v.toString())
+                                                            $("#Subtotal<?=$SID;?>").html(newSubtotal.toString())                                                       
 
                                                         })
                                                         
@@ -349,6 +359,9 @@
                                     <!--  -->
                                 </div>
                                 <div class="modal-footer">
+                                    <p style="display:inline">
+                                        <div style="display:inline">Subtotal   $</div><div style="display:inline" id="Subtotal<?=$SID;?>">0</div>                                        
+                                    </p>
                                     <button type="button" value="0" class="btn btn-default nowave" id="CalPriceBtn<?=$PID;?>">calculate the price</button>
                                     <script>
                                     $("#CalPriceBtn<?=$PID;?>").click( ()=>{
