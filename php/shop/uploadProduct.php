@@ -31,16 +31,18 @@ try {
   $conn->setAttribute(PDO::ATTR_ERRMODE, 
   PDO::ERRMODE_EXCEPTION);
   try{
+    
+    $PICID = "0";
     $s=$conn->prepare("select count(*) from productimage");
     $s->execute();
-    $k = $s ->fetch();
-    if((int)$k[0]!=0){
-      $s=$conn->prepare("select max(PID) from productimage");
+
+    if($s->fetch()[0]!=0){
+      $s=$conn->prepare("select max(PICID) from productimage");
       $s->execute();
-      $k = $s ->fetch();
+      $PICID = (string)((int)$s -> fetch()[0] + 1);
     }  
 
-    $PICID = (string)((int)$k[0] + 1);
+
     $imgType=$_FILES["upfile"]["type"];
     
 
@@ -57,17 +59,29 @@ try {
       throw new Exception('Product existed.');
     }
     else{
-      $s = $conn->prepare("select count(*) from products");
-      $s -> execute();
-      $k = $s -> fetch();
-      if((int)$k[0]!=0){
+
+      $PID = "0";
+      $s=$conn->prepare("select count(*) from products");
+      $s->execute();
+  
+      if($s->fetch()[0]!=0){
         $s=$conn->prepare("select max(PID) from products");
         $s->execute();
-        $k = $s ->fetch();
+        $PID = (string)((int)$s ->fetch()[0]);
+        $dummyPID = $PID+1;
+
+        $stmt=$conn->prepare("delete from products where price = -1");
+        $stmt->execute();
       }  
-      $PID = (string)((int)$k[0] + 1);
+
+      
+
       $stmt=$conn->prepare("insert into products values ($PID, $SID ,'$productName' ,$price ,$quantity);");       
       $stmt->execute();
+
+      $stmt=$conn->prepare("insert into products values ($dummyPID, -1 ,'dummy' , -1 ,-1);");       
+      $stmt->execute();
+
       $stmt=$conn->prepare("insert INTO productimage values ($PICID,$PID,'$fileContents','$imgType');");
       $stmt->execute();
     }
@@ -92,7 +106,7 @@ try {
         <html>
         <body>
         <script>
-        alert("$msg" )
+        alert("$msg")
         window.location.replace("../../navShop.php")
         </script> </body> </html>
     EOT;

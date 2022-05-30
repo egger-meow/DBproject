@@ -28,6 +28,7 @@ try{
   $pwd=$_POST['pwd'];
 
   $conn = new PDO('mysql:host=localhost;dbname=acdb', $dbusername, $dbpassword);
+  
 # set the PDO error mode to exception
   $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   $stmt=$conn->prepare("select * from users where account=:Acc");

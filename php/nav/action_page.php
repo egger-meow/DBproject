@@ -1,6 +1,5 @@
 <?php
 
-$_SESSION['Authenticated']=false;
 $dbservername='localhost';
 $dbname='acdb';
 $dbusername='root';
@@ -36,8 +35,8 @@ else{
         if($distance=='near'){$dis=100;}
         elseif($distance=='medium'){$dis=10000;}
         elseif($distance=='far'){$dis=10000000;}
-        $s=$conn->prepare("select * from shops where ST_Distance_Sphere(POINT(:lat,:lon),location) < $dis ");
-        $s->execute(array('lat' => $_SESSION['curUser']['latitude'] ,'lon' => $_SESSION['curUser']['longitude'] ));
+        $s=$conn->prepare("select * from shops where ST_Distance_Sphere(POINT(:lon :lat),location) < $dis ");
+        $s->execute(array('lon' => $_SESSION['curUser']['longitude'],'lat' => $_SESSION['curUser']['latitude']  ));
         
     }elseif(!empty($_POST['min_price']) || !empty($_POST['max_price'])){
         $min_price = $_POST['min_price'];

@@ -1,10 +1,8 @@
 <?php
 session_start();
 
-$dbservername='localhost';
-$dbname='acdb';
-$dbusername='root';
-$dbpassword='';
+require "../shit/dbConnect.php";
+
 
     $_SESSION['ok'] = true;
     $_SESSION['errMessage'] = "";
@@ -20,9 +18,7 @@ $dbpassword='';
     $longitude = $_REQUEST['longitude'];
    
     try{
-        $conn = new PDO("mysql:host=$dbservername;dbname=$dbname", $dbusername, $dbpassword);
-        # set the PDO error mode to exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        
         
         //* 店名可不可重複
         $stmt=$conn->prepare("select shopname from shops where shopname=:acc");
@@ -51,13 +47,12 @@ $dbpassword='';
                 $_SESSION['curUser']['shop']['longitude'] = $longitude;
 
                 echo <<<EOT
-                    <!DOCTYPE html>
-                    <html> 
-                    <body>
+                    
                     <script>
-                    alert("Resgister successfully.");
-                    window.location.replace("navShop.php");
-                    </script> </body> </html>
+                    alert("Register successfully.");
+                    window.location.reload();
+                    </script> 
+                    
                 EOT;
             }
             catch(PDOException $e) {

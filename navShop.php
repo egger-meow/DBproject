@@ -6,7 +6,7 @@
     $_SESSION['ok'] = true;
  
     if(!$_SESSION['Authenticated']){
-        header('Location: nav.php');
+       header('Location: index.php');
     } 
     
     if(isset($_SESSION['upload'])){
@@ -53,6 +53,7 @@
                 $(document).ready(function() {
                     $("#shopResForm").submit( function(event) {
                         event.preventDefault();
+
                         var shopname = $("#exshopname").val();
                         var category = $("#excategory").val();
                         var latitude = $("#exlatitude").val();
@@ -60,11 +61,11 @@
 
                         let lon = parseFloat(longitude)
                         let lat = parseFloat(latitude)
+
                         if(Math.abs(lat)>90||Math.abs(lon)>180){
                             $("#shopResErrMsg").html('illegal location inout!');
                             return;
                         }
-
 
                         $("#shopResErrMsg").load("php/shop/shopRegister.php", {
                             shopname :shopname,
@@ -75,21 +76,6 @@
                         //checkResShop();
                     });   
                 });
-                
-                /*if(true){
-                    //alert("shop register success!");
-                    //document.getElementById('shopResSubmit').disabled = true ;
-                    document.write("<p>这是一个段落。</p>");
-                    document.getElementById("exshopname").readOnly="readOnly";
-                    document.getElementById("excategory").readOnly="true";
-                    document.getElementById("exlatitude").readOnly="true";
-                    document.getElementById("exlongitude").readOnly="true";
-                    document.getElementById("exshopname").value= "ffff";
-                
-                }
-                
-                */
-
                 
             </script>
 
@@ -159,18 +145,16 @@
                             }
 
                             if (responseObject) {
-                                
                                 handleResponse(responseObject);
                             }
-
                         };
                         const requestData = `shopname=${$("#exshopname").val()}`;
                         request.open('post', 'php/shop/checkShopnameExist.php');
                         request.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
                         request.send(requestData);
                     }
-                        
                 })
+                
                 function handleResponse(responseObject){
                     $("#shopResErrMsg").html('')
                     if(!responseObject.ok){
@@ -179,22 +163,27 @@
                 }
                 
             </script>
+
             <hr>
+
             <?php 
+
             if(!$_SESSION['curUser']['identity']){
                 exit();
             }
-            ?>
-            <h3>ADD</h3>
-   
-            <form class="form-group " method="post" action="php/shop/uploadProduct.php" Enctype="multipart/form-data" id= "addProForm">
-                <div class="row">
 
+            ?>
+
+            <h3>ADD</h3>
+            <form class="form-group " method="post" action="php/shop/uploadProduct.php" Enctype="multipart/form-data" id= "addProForm">
+                
+                <div class="row">
                     <div class="col-xs-6">
                         <label for="ex3">meal name</label>
                         <input class="form-control" id="pname" type="text" name="pname"  required>
                     </div>
                 </div>
+
                 <div class="row" style=" margin-top: 15px;">
                     <div class="col-xs-3">
                         <label for="ex7">price</label>
@@ -210,7 +199,6 @@
                 </p>
 
                 <div class="row" style=" margin-top: 25px;">
-
                     <div class=" col-xs-3">
                         <label for="ex12">上傳圖片</label>
                         <input id="myFile" type="file" name="upfile" multiple class="file-loading" required>
@@ -220,6 +208,7 @@
                         <button id="fuck" style=" margin-top: 15px;" type="submit" class="btn btn-primary">Add</button>
                     </div>
                 </div>
+
             </form>
 
             <div class="row">

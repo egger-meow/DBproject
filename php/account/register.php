@@ -43,7 +43,7 @@ try {
     $stmt->execute(array('acc' => $account));
     if ($stmt->rowCount()==0){
         try{
-        $s=$conn->prepare("select count(*) from users");
+        $s=$conn->prepare("select max(UID) from users");
         $s->execute();
         $k = $s ->fetch();
          
@@ -58,7 +58,7 @@ try {
         $stmt->execute();
       
         }catch(PDOException $e){
-            throw new Exception("Something went wrong.");
+            throw new Exception($e->getMessage());
         }
 
         $_SESSION['Authenticated']=true;

@@ -24,6 +24,7 @@ require "php/shit/head.php";
         padding: 10px 25px;
         max-width: 250px;
     }
+		
 </style>
 
 <div class="container">
@@ -98,7 +99,7 @@ require "php/shit/head.php";
 				};
 
 				$("#name").change( ()=>{
-					if(/^[a-zA-Z ]*$/.test($("#name").val())){
+					if(!/^[a-zA-Z ]*$/.test($("#name").val())){
 						$("#invname").html('name can only have letters!');
 					}			
 					else{
@@ -200,6 +201,7 @@ require "php/shit/head.php";
 					request.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
 					request.send(requestData);
 				});
+
         function handleAcc(responseObject){
 					if (!responseObject.ok){
 						if(responseObject.msg=='Account used.'){
@@ -208,8 +210,10 @@ require "php/shit/head.php";
 						}
 					}
 				}
+				
 				function handleResponse(responseObject) {
 					$("#dulAccount").html('')
+					$("#difpwd").html('')
 					if (!($("#invname").is(':empty')&&$("#invpnum").is(':empty')&&$("#invacc").is(':empty')&&$("#invlon").is(':empty')&&$("#invlat").is(':empty')&&$("#invpass").is(':empty'))){
 
 						const li = document.createElement('li');
@@ -226,6 +230,7 @@ require "php/shit/head.php";
 					} 
 					else {
 
+						alert(responseObject.msg)
 						while (form.mess.firstChild) {
 
 							form.mess.removeChild(form.mess.firstChild);
