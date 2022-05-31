@@ -3,6 +3,8 @@ session_start();
 
 require "../shit/dbConnect.php";
 
+
+
   $ok = true;
   $msg = "";
 
@@ -52,6 +54,7 @@ require "../shit/dbConnect.php";
         }  
 
         foreach($cart as $PID => $quantity){
+          
           $stmt=$conn->prepare("select * from products where PID = $PID");
           $stmt->execute();
 
@@ -65,21 +68,24 @@ require "../shit/dbConnect.php";
           } else {
             $stmt=$conn->prepare("insert into order_product values ($OID, $PID, $quantity);");
             $stmt->execute();
+            $msg = "success!";
           }
         }
 
         $stmt=$conn->prepare("insert into orders values ($OID, $SID, $UID, '$orderStatus', '$timeOrderCreated', NULL, $orderDistance, $amount, '$orderType');");
         $stmt->execute();
+
       } catch(PDOException $e) {
         throw new Exception($e->getMessage());
       }
 
+      $conn->commit();
     }
     catch(Exception $e){
       
       $conn->rollBack();
+      $ok = false;
 
-      $_SESSION['ok'] = false;
 
       $msg = $e->getMessage();
     }

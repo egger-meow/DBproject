@@ -438,10 +438,7 @@
                           $("#orderQ<?=$SID?>").html("order quantity")
                           $("#CalPriceBtn<?=$SID;?>").html('order')
                           
-                         
-
                           if ($("#Delivery<?=$SID;?>").is(':checked')) {
-
                             $(".fucker1<?=$SID;?>").html("Delivery fee   $")
                             
                             let fee = Math.round(Math.max(<?=$dis;?> * 10,10))
@@ -456,7 +453,8 @@
                           $(".fucker4<?=$SID;?>").html(total.toString())
 
                         } else {
-alert(1)
+                          let total = parseInt($("#totalPrice<?=$SID;?>").html())
+
                           cart<?=$SID;?>.set(-1,<?=$SID;?>)  // [-1] is SID   
                           cart<?=$SID;?>.set(-2,total)       // [-2] is total price
                           cart<?=$SID;?>.set(-3,orderType)   // [-3] is 0: take 1: delivery
@@ -471,8 +469,15 @@ alert(1)
                             data: {cart: json},
                             success: function(data) {
 
-                             alert(JSON.stringify(data))
+                              let response = JSON.parse(data)
 
+                              if(response.ok) {
+                                alert("orfer created!")
+                                window.location.replace("navMyOrder.php")
+
+                              } else {
+                                alert(response.msg)
+                              }
                             }
                           });
                         }
