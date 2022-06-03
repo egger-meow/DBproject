@@ -12,7 +12,7 @@ $msg = "";
     {
         exit();
     }
-
+        
     $shopname = $_REQUEST['shopname'];
    
     try{

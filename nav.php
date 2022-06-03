@@ -101,7 +101,7 @@
           <div class="modal fade" id="myModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog  modal-sm">
               <div class="modal-content">
-              <form action="php/nav/add_value.php" class="fh5co-form animate-box" data-animate-effect="fadeIn" method="post" >
+              <form action="php/nav/add_value.php" id="addMoneySubmit" class="fh5co-form animate-box" data-animate-effect="fadeIn" method="post" >
 
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -109,7 +109,7 @@
                 </div>
 
                 <div class="modal-body">
-                  <input name="add_value" type="text" class="form-control" id="value" placeholder="enter add value" required="required" pattern="^[0-9]+$" >
+                  <input name="add_value" type="text" class="form-control" id="advalue" placeholder="enter add value" required="required" pattern="^[0-9]+$" >
                 </div>
 
                 <div class="modal-footer">
@@ -122,6 +122,37 @@
           </div>
         </div>
       </div>
+      <script>
+        $("#addMoneySubmit").submit( (event)=>{
+          event.preventDefault()
+          
+          $.ajax({
+              url: 'php/transaction/createTransaction.php',
+              type: 'post',
+              data: {
+                'UID':<?=$_SESSION['curUser']['UID']?>,
+                'TransactionAmount':parseInt($("#advalue").val()),
+                'TransactionType': '+',
+                'addvalue': true
+              },
+              success: function(data) {
+
+                let response = JSON.parse(data)
+
+                if(response.ok) {
+                  alert("add value success!")
+                  window.location.reload();
+
+                } else {
+                  alert("add value failed! errmsg: "+response.msg)
+                  window.location.reload();
+                }
+              }
+            });
+
+        })
+
+      </script>
       <!-- 
           搜尋SEARCH
           頁面 跳轉to action_page.php
@@ -464,15 +495,16 @@
 
                           
                           $.ajax({
-                            url: 'php/order/setOrder.php',
+                            url: 'php/order/createOrder.php',
                             type: 'post',
-                            data: {cart: json},
+                            data: {cart:json},
                             success: function(data) {
-
+                              alert(data)
+                              return
                               let response = JSON.parse(data)
 
                               if(response.ok) {
-                                alert("orfer created!")
+                                alert("order created!")
                                 window.location.replace("navMyOrder.php")
 
                               } else {

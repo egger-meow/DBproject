@@ -1,9 +1,16 @@
 <?php
 session_start();
 
+// function httpPost($url, $data){
+//   $curl = curl_init($url);
+//   curl_setopt($curl, CURLOPT_POST, true);
+//   curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
+//   curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+//   $response = curl_exec($curl);
+//   return $response;
+// }
+
 require "../shit/dbConnect.php";
-
-
 
   $ok = true;
   $msg = "";
@@ -13,11 +20,7 @@ require "../shit/dbConnect.php";
       exit();
   }
  
-
     $cart = json_decode($_POST['cart'], true);
-    
-
-    
 
     $SID = $cart[-1] ;
     $UID = $_SESSION['curUser']['UID'];
@@ -72,23 +75,62 @@ require "../shit/dbConnect.php";
           }
         }
 
-        $stmt=$conn->prepare("insert into orders values ($OID, $SID, $UID, '$orderStatus', '$timeOrderCreated', NULL, $orderDistance, $amount, '$orderType');");
+        $stmt = $conn->prepare("insert into orders values ($OID, $SID, $UID, '$orderStatus', '$timeOrderCreated', NULL, $orderDistance, $amount, '$orderType');");
         $stmt->execute();
 
-      } catch(PDOException $e) {
+        $stmt = $conn->prepare("select UID from shops where SID =$SID;");
+        $stmt->execute();
+        $SUID = $stmt->fetch()[0];
+
+        ###create transaction
+
+        $stmt=$conn->prepare("select balance from users where UID = $UID;");
+        $stmt->execute();
+
+        if($amount > $stmt->fetch()[0]){
+          throw new Exception("lack in balance");
+        }
+
+        $stmt=$conn->prepare("update users set balance = balance - $amount where UID = $UID;");
+        $stmt->execute();
+
+        $stmt=$conn->prepare("update users set balance = balance + $amount where UID = $SUID;");
+        $stmt->execute();
+
+        $TID = 0;
+        $s=$conn->prepare("select count(*) from transactions");
+        $s->execute();
+
+        if($s->fetch()[0]!=0){
+          $s=$conn->prepare("select max(TID) from transactions");
+          $s->execute();
+          $TID = $s ->fetch()[0] + 1;
+        }  
+
+        $stmt=$conn->prepare("insert into transactions values ($TID, $UID, $amount, '$timeOrderCreated', 'payment');  ");
+        $stmt->execute();
+
+        $TID++;
+
+        $stmt=$conn->prepare("insert into transactions values ($TID, $SUID, $amount, '$timeOrderCreated', 'receive');  ");
+        $stmt->execute();
+
+      } catch (PDOException $e) {
         throw new Exception($e->getMessage());
       }
+     
 
-      $conn->commit();
+      $conn->commit(); 
     }
     catch(Exception $e){
       
       $conn->rollBack();
       $ok = false;
-
-
       $msg = $e->getMessage();
     }
+?>
+
+<?php
     echo json_encode(
         array(
             'ok'       => $ok,
