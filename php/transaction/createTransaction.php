@@ -8,7 +8,7 @@ $msg = "";
 
 if (!isset($_POST['UID']) ||
     !isset($_POST['TransactionAmount']) ||
-    !isset($_POST['TransactionType'])   // '+' or '-'
+    !isset($_POST['TransactionType'])   // recharge payment reicieve 
     ) { exit(); }
 
 $UID               = $_POST['UID'];
