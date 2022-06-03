@@ -13,7 +13,7 @@ session_start();
 require "../shit/dbConnect.php";
 
   $ok = true;
-  $msg = "";
+  $msg = "success!";
 
   if (!isset($_POST['cart']))
   {
@@ -71,7 +71,10 @@ require "../shit/dbConnect.php";
           } else {
             $stmt=$conn->prepare("insert into order_product values ($OID, $PID, $quantity);");
             $stmt->execute();
-            $msg = "success!";
+
+            $stmt=$conn->prepare("update products set quality = quality - $quantity where SID = $SID;");
+            $stmt->execute();
+            
           }
         }
 

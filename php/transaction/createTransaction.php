@@ -48,6 +48,7 @@ $timeTransactionCreated = $currentDate->format('Y-m-d H:i:s');
       $TID = 0;
       $s=$conn->prepare("select count(*) from transactions");
       $s->execute();
+      
       if($s->fetch()[0]!=0){
         $s=$conn->prepare("select max(TID) from transactions");
         $s->execute();
