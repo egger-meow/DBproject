@@ -13,7 +13,7 @@ if (!isset($_POST['UID']) ||
 
 $UID               = $_POST['UID'];
 $TransactionAmount = $_POST['TransactionAmount'];
-$TransactionType   = $_POST['TransactionType'] == '+' ? true : false; // true add money, false drop money
+$TransactionType   = $_POST['TransactionType']; 
 
 $currentDate      = new DateTime();
 $timeTransactionCreated = $currentDate->format('Y-m-d H:i:s');
@@ -21,7 +21,7 @@ $timeTransactionCreated = $currentDate->format('Y-m-d H:i:s');
   $conn -> beginTransaction();
   try{
     try{
-      if (!$TransactionType){
+      if ($TransactionType == 'payment'){
         $stmt=$conn->prepare("select balance from users where UID = $UID;");
         $stmt->execute();
 
@@ -32,9 +32,17 @@ $timeTransactionCreated = $currentDate->format('Y-m-d H:i:s');
         $stmt=$conn->prepare("update users set balance = balance - $TransactionAmount where UID = $UID;");
         $stmt->execute();
 
+        if($_SESSION['curUser']['UID'] == $UID) {
+          $_SESSION['curUser']['balance']  -= $TransactionAmount;
+        }
+
       } else {
         $stmt=$conn->prepare("update users set balance = balance + $TransactionAmount where UID = $UID;");
         $stmt->execute();
+
+        if($_SESSION['curUser']['UID'] == $UID) {
+          $_SESSION['curUser']['balance']  += $TransactionAmount;
+        }
       }
 
       $TID = 0;
@@ -46,16 +54,14 @@ $timeTransactionCreated = $currentDate->format('Y-m-d H:i:s');
         $TID = $s ->fetch()[0] + 1;
       }  
 
-      $stmt=$conn->prepare("insert into transactions values ($TID, $UID, $TransactionAmount, '$timeTransactionCreated', $TransactionType);  ");
+      $stmt=$conn->prepare("insert into transactions values ($TID, $UID, $TransactionAmount, '$timeTransactionCreated', '$TransactionType');  ");
       $stmt->execute();
 
     } catch (PDOException $e) {
       throw new Exception($e-> getMessage());
     }
     
-    if(isset($_POST['addvalue'])){
-      $_SESSION['curUser']['balance']+=$TransactionAmount;
-    }
+    
 
     $conn->commit();
 

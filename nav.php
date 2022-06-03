@@ -130,10 +130,9 @@
               url: 'php/transaction/createTransaction.php',
               type: 'post',
               data: {
-                'UID':<?=$_SESSION['curUser']['UID']?>,
+                'UID':<?=$_SESSION['curUser']['UID'];?>,
                 'TransactionAmount':parseInt($("#advalue").val()),
-                'TransactionType': '+',
-                'addvalue': true
+                'TransactionType': 'recharge',
               },
               success: function(data) {
 
@@ -499,8 +498,8 @@
                             type: 'post',
                             data: {cart:json},
                             success: function(data) {
-                              alert(data)
-                              return
+                              // alert(data)
+                              // return
                               let response = JSON.parse(data)
 
                               if(response.ok) {
