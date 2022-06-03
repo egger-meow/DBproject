@@ -40,10 +40,14 @@ require "../shit/dbConnect.php";
     unset($cart[-3]);
     unset($cart[-4]);
    
+   
     $conn->beginTransaction();
 
     try{
       try{
+        if(empty($cart)){
+          throw new Exception("You had ordered nothing!");
+        }
 
         $OID = 0;
 
@@ -72,7 +76,7 @@ require "../shit/dbConnect.php";
             $stmt=$conn->prepare("insert into order_product values ($OID, $PID, $quantity);");
             $stmt->execute();
 
-            $stmt=$conn->prepare("update products set quality = quality - $quantity where SID = $SID;");
+            $stmt=$conn->prepare("update products set quantity = quantity - $quantity where SID = $SID;");
             $stmt->execute();
             
           }
