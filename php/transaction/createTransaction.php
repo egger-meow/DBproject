@@ -4,18 +4,20 @@ session_start();
 require "../shit/dbConnect.php";
 
 $ok = true;
+
 $msg = "";
 
 if (!isset($_POST['UID']) ||
     !isset($_POST['TransactionAmount']) ||
-    !isset($_POST['TransactionType'])   // recharge payment reicieve 
+    !isset($_POST['TransactionType'])   // recharge payment receive 
     ) { exit(); }
 
 $UID               = $_POST['UID'];
 $TransactionAmount = $_POST['TransactionAmount'];
 $TransactionType   = $_POST['TransactionType']; 
 
-$currentDate      = new DateTime();
+$timeZone = new DateTimeZone('Asia/Taipei');
+$currentDate      = new DateTime('now',$timeZone);
 $timeTransactionCreated = $currentDate->format('Y-m-d H:i:s');
 
   $conn -> beginTransaction();

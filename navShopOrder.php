@@ -29,7 +29,7 @@ require "php/shit/dbConnect.php";
 <ul class="nav nav-tabs">
     <li><a href="nav.php">Home</a></li>
     <li class="dropdown active">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+            <a href="navShopOrder.php" class="dropdown-toggle" data-toggle="dropdown" role="button"
                aria-haspopup="true" aria-expanded="true">My shop<span class="caret"></span></a>
             <ul class="dropdown-menu">
                 <li><a href="navShop.php">imformation</a></li>

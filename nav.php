@@ -33,7 +33,7 @@
   <ul class="nav nav-tabs">
     <li class="active"><a href="nav.php">Home</a></li>
     <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+      <a href="navShop.php" class="dropdown-toggle" data-toggle="dropdown" role="button"
         aria-haspopup="true" aria-expanded="true">My shop<span class="caret"></span></a>
       <ul class="dropdown-menu">
         <li><a href="navShop.php">info.</a></li>
@@ -423,13 +423,13 @@
 
 
                     <div style="display:inline" class="custom-control custom-radio custom-control-inline">
-                      <input type="radio" class="custom-control-input" id="Delivery<?=$SID;?>"  class="defaultDeli" checked>
+                      <input type="radio" class="custom-control-input" name="fuckB"id="Delivery<?=$SID;?>"  class="defaultDeli" checked>
                       <label class="custom-control-label" for="Delivery<?=$SID;?>" >Delivery</label>
                     </div>
 
                     <!-- Default inline 2-->
                     <div  style="display:inline"class="custom-control custom-radio custom-control-inline">
-                      <input type="radio" class="custom-control-input" id="Pickup<?=$SID;?>" >
+                      <input type="radio" class="custom-control-input"name="fuckB" id="Pickup<?=$SID;?>" >
                       <label class="custom-control-label" for="Pickup<?=$SID;?>">Pick-up</label>
                     </div>
                   
@@ -450,12 +450,12 @@
                       <div style="display:inline;"class="fucker3<?=$SID;?>"></div><div style="display:inline" class="fucker4<?=$SID;?>" id="totalPrice<?=$SID;?>"></div>                                        
                     </p>
                     <!-- Default inline 1-->
-
+                    <button type="button" value="0" style="float:left" id="back<?=$SID;?>"class="btn btn-default nowave" " >back</button>
                     <button type="button" value="0" class="btn btn-default nowave" id="CalPriceBtn<?=$SID;?>">calculate the price</button>
                     <script>
 
                       $(".defaultDeli").prop('checked', true)
-                      
+                      $("#back<?=$SID;?>").hide()
                       $("#CalPriceBtn<?=$SID;?>").on('click', ()=>{
 
                         let total = parseInt($("#Subtotal<?=$SID;?>").html())
@@ -467,6 +467,7 @@
                           $(".minus<?=$SID;?>").hide()
                           $("#orderQ<?=$SID?>").html("order quantity")
                           $("#CalPriceBtn<?=$SID;?>").html('order')
+                          $("#back<?=$SID;?>").show()
                           
                           if ($("#Delivery<?=$SID;?>").is(':checked')) {
                             $(".fucker1<?=$SID;?>").html("Delivery fee   $")
@@ -483,6 +484,12 @@
                           $(".fucker4<?=$SID;?>").html(total.toString())
 
                         } else {
+                          if (cart<?=$SID;?>.size === 0) {
+                            alert("You had ordered nothing!")
+                            $("#CalPriceBtn<?=$SID;?>").html('calculate the price')
+                            return
+                          }
+
                           let total = parseInt($("#totalPrice<?=$SID;?>").html())
 
                           cart<?=$SID;?>.set(-1,<?=$SID;?>)  // [-1] is SID   
@@ -492,14 +499,11 @@
 
                           const json = JSON.stringify(Object.fromEntries(cart<?=$SID;?>));
 
-                          
                           $.ajax({
                             url: 'php/order/createOrder.php',
                             type: 'post',
                             data: {cart:json},
                             success: function(data) {
-                              // alert(data)
-                              // return
                               let response = JSON.parse(data)
 
                               if(response.ok) {
@@ -513,6 +517,7 @@
                           });
                         }
                       })
+
                     </script>
 
                   </div>

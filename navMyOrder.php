@@ -29,7 +29,7 @@
     <ul class="nav nav-tabs">
         <li><a href="nav.php">Home</a></li>
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+            <a href="navShop.php" class="dropdown-toggle" data-toggle="dropdown" role="button"
                aria-haspopup="true" aria-expanded="true">My shop<span class="caret"></span></a>
             <ul class="dropdown-menu">
                 <li><a href="navShop.php">info.</a></li>

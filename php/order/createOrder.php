@@ -26,7 +26,8 @@ require "../shit/dbConnect.php";
     $UID = $_SESSION['curUser']['UID'];
     $orderStatus = "undone";
 
-    $currentDate      = new DateTime();
+    $timeZone = new DateTimeZone('Asia/Taipei');
+    $currentDate      = new DateTime('now',$timeZone);
     $timeOrderCreated = $currentDate->format('Y-m-d H:i:s');
 
     $orderDistance = $cart[-4];
@@ -45,7 +46,7 @@ require "../shit/dbConnect.php";
 
     try{
       try{
-        if(empty($cart)){
+        if (empty($cart)) {
           throw new Exception("You had ordered nothing!");
         }
 
