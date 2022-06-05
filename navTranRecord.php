@@ -66,7 +66,7 @@ require "php/shit/dbConnect.php";
     $UID    = $tra['UID']; 
 
     $stmt   = $tra['TransactionType'] == 'receive' ? $conn->prepare("select shopName from shops where UID = $UID;") : $conn->prepare("select account from users where UID = $UID");
-    $stmt->execute();
+    $stmt -> execute();
 
     $trader = $stmt->fetch()[0];
     $sign   = $tra['TransactionType'] == 'payment' ? '-' : '+'
