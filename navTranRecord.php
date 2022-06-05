@@ -62,22 +62,16 @@ require "php/shit/dbConnect.php";
             <tbody>
 
 <?php
-  foreach ( $conn -> query('select * from transactions') as $id => $tra ) {
-    $UID = $tra['UID']; 
-    $trader = "";
-    if ($tra['TransactionType'] == 'receive') {
-      $stmt=$conn->prepare("select shopName from shops where UID = $UID;");
-      $stmt->execute();
-      $trader = $stmt->fetch()[0];
+  foreach ($conn -> query('select * from transactions') as $id => $tra) {
+    $UID    = $tra['UID']; 
 
-    } else {
-      $stmt=$conn->prepare("select account from users where UID = $UID");
-      $stmt->execute();
-      $trader = $stmt->fetch()[0];
-    }
-   
-    $sign = $tra['TransactionType'] == 'payment' ? '-' : '+'
+    $stmt   = $tra['TransactionType'] == 'receive' ? $conn->prepare("select shopName from shops where UID = $UID;") : $conn->prepare("select account from users where UID = $UID");
+    $stmt->execute();
+
+    $trader = $stmt->fetch()[0];
+    $sign   = $tra['TransactionType'] == 'payment' ? '-' : '+'
 ?> 
+
             <tr>
               <td><?=$id+1?></td> 
               <td><?=$tra['TransactionType']?></td> 
@@ -85,6 +79,7 @@ require "php/shit/dbConnect.php";
               <td><?=$trader?></td>
               <td><?=$sign?><?=$tra['TransactionAmount']?></td> 
             </tr>
+
 <?php
   }
 ?>
@@ -99,15 +94,15 @@ require "php/shit/dbConnect.php";
 
 <script>
 
-    $('li.dropdown').mouseover(function () {
+  $('li.dropdown').mouseover(function () {
 
-      if ($(document).width() > 767)
-          $(this).addClass('open');
+    if ($(document).width() > 767)
+      $(this).addClass('open');
 
-    }).mouseout(function () {
-      if ($(document).width() > 767)
-        $(this).removeClass('open');
-    });
+  }).mouseout(function () {
+    if ($(document).width() > 767)
+      $(this).removeClass('open');
+  });
 
 </script>
 
