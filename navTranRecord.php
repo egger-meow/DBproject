@@ -16,12 +16,11 @@
   if (isset($_POST['ac'])) {
     $fuck = $_POST['ac'] == "" ? "all" : $_POST['ac'] ;
     if ($_POST['ac'] != "all") {
-      $action = " where TransactionType = '" . $_POST['ac']."'";
-    } else {
-      $action = "";
-    }
+      $action = " where TransactionType = '" . $_POST['ac'] . "'";
+    } 
   }
 ?>
+
 
 
 <nav class="navbar navbar-inverse">
