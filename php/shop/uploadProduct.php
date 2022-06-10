@@ -1,9 +1,6 @@
 <?php
 
-$dbservername='localhost';
-$dbname='acdb';
-$dbusername='jonhou1203';
-$dbpassword='pass9704';
+require "../shit/dbConnect.php";
 session_start();
 $_SESSION['ok'] = true;
 $msg = "";
@@ -25,11 +22,7 @@ try {
 
 
  // exit();
-  $conn = new PDO("mysql:host=$dbservername; dbname=$dbname", 
-  $dbusername, $dbpassword);
-  # set the PDO error mode to exception
-  $conn->setAttribute(PDO::ATTR_ERRMODE, 
-  PDO::ERRMODE_EXCEPTION);
+
   try{
     
     $PICID = "0";
@@ -61,6 +54,7 @@ try {
     else{
 
       $PID = "0";
+      $dummyPID = "1";
       $s=$conn->prepare("select count(*) from products");
       $s->execute();
   
@@ -70,14 +64,10 @@ try {
         $PID = (string)((int)$s ->fetch()[0]);
         $dummyPID = $PID+1;
 
-        $stmt=$conn->prepare("select * from products where price = -1");
+        $stmt=$conn->prepare("delete from products where price = -1");
         $stmt->execute();
-
-        if ($stmt->rowCount() != 0) {
-          $stmt=$conn->prepare("delete from products where price = -1");
-          $stmt->execute();
-        } 
-      }  
+        
+      }
       
 
       $stmt=$conn->prepare("insert into products values ($PID, $SID ,'$productName' ,$price ,$quantity);");       
