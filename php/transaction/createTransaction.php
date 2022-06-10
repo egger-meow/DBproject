@@ -16,8 +16,8 @@ $UID               = $_POST['UID'];
 $TransactionAmount = $_POST['TransactionAmount'];
 $TransactionType   = $_POST['TransactionType']; 
 
-$timeZone = new DateTimeZone('Asia/Taipei');
-$currentDate      = new DateTime('now',$timeZone);
+$timeZone      = new DateTimeZone('Asia/Taipei');
+$currentDate   = new DateTime('now',$timeZone);
 $timeTransactionCreated = $currentDate->format('Y-m-d H:i:s');
 
   $conn -> beginTransaction();
@@ -64,11 +64,9 @@ $timeTransactionCreated = $currentDate->format('Y-m-d H:i:s');
       throw new Exception($e-> getMessage());
     }
     
-    
-
     $conn->commit();
 
-  } catch (Exception $e){
+  } catch (Exception $e) {
     $conn->rollBack();
     $ok = false;
     $msg = $e->getMessage();
@@ -79,5 +77,5 @@ $timeTransactionCreated = $currentDate->format('Y-m-d H:i:s');
         'ok'       => $ok,
         'msg'      => $msg
     )
-);
+  );
 ?>        

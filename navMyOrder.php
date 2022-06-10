@@ -11,7 +11,7 @@
 
     require "php/shit/dbConnect.php";
     
-?>
+    ?>
 
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
@@ -46,11 +46,12 @@
 <script>
     $('li.dropdown').mouseover(function () {
 
-        if ($(document).width() > 767)
-            $(this).addClass('open');
+      if ($(document).width() > 767)
+        $(this).addClass('open');
+        
     }).mouseout(function () {
-        if ($(document).width() > 767)
-            $(this).removeClass('open');
+      if ($(document).width() > 767)
+        $(this).removeClass('open');
     });
 </script>
 

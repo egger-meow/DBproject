@@ -51,7 +51,7 @@
     <div id="menu1" class="tab-pane fade in active">
       <h3> Start a business </h3>
 
-      <script>
+      <script> 
 
         $(document).ready(function() {
           $("#shopResForm").submit( function(event) {
@@ -115,7 +115,7 @@
           </div>
         </div>
       </form>
-      
+
       <script>
                         
           $(document).ready(function() {
@@ -221,7 +221,7 @@
           </div>
         </div>
 
-      </form>
+      </form> 
 
       <div class="row">
         <div class="  col-xs-8">

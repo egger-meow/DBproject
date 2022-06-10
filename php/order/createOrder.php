@@ -26,7 +26,7 @@ require "../shit/dbConnect.php";
     $UID = $_SESSION['curUser']['UID'];
     $orderStatus = "undone";
 
-    $timeZone = new DateTimeZone('Asia/Taipei');
+    $timeZone         = new DateTimeZone('Asia/Taipei');
     $currentDate      = new DateTime('now',$timeZone);
     $timeOrderCreated = $currentDate->format('Y-m-d H:i:s');
 
@@ -55,10 +55,10 @@ require "../shit/dbConnect.php";
         $s=$conn->prepare("select count(*) from orders");
         $s->execute();
     
-        if($s->fetch()[0]!=0){
+        if($s->fetch()[0] != 0){
           $s=$conn->prepare("select max(OID) from orders");
           $s->execute();
-          $OID = $s ->fetch()[0] + 1;
+          $OID = $s -> fetch()[0] + 1;
         }  
 
         foreach($cart as $PID => $quantity){
@@ -86,7 +86,7 @@ require "../shit/dbConnect.php";
         $stmt = $conn->prepare("insert into orders values ($OID, $SID, $UID, '$orderStatus', '$timeOrderCreated', NULL, $orderDistance, $amount, '$orderType');");
         $stmt->execute();
 
-        $stmt = $conn->prepare("select UID from shops where SID =$SID;");
+        $stmt = $conn->prepare("select UID from shops where SID = $SID;");
         $stmt->execute();
         $SUID = $stmt->fetch()[0];
 

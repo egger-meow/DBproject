@@ -27,11 +27,12 @@
       <a class="navbar-brand nav" href="index.php" style="float: right;display: block;">logout</a>
     </div>
   </div>  
-</nav>
-<div class="container">
+</nav> 
 
+<div class="container">
   <ul class="nav nav-tabs">
     <li class="active"><a href="nav.php">Home</a></li>
+
     <li class="dropdown">
       <a href="navShop.php" class="dropdown-toggle" data-toggle="dropdown" role="button"
         aria-haspopup="true" aria-expanded="true">My shop<span class="caret"></span></a>
@@ -40,6 +41,7 @@
         <li><a href="navShopOrder.php">orders</a></li>
       </ul>
     </li>
+
     <li><a href="navMyOrder.php">My Order</a></li>
     <li><a href="navTranRecord.php">Transaction Record</a></li>
   </ul>
@@ -82,9 +84,7 @@
           </div>
 
           <script>
-
-
-                  
+              
             $("#lonlatedit").submit( (event)=>{
               if(parseFloat($("#latitude").val())>90||parseFloat($("#longitude").val())>180){
                 event.preventDefault()
@@ -122,7 +122,9 @@
           </div>
         </div>
       </div>
+
       <script>
+
         $("#addMoneySubmit").submit( (event)=>{
           event.preventDefault()
           
@@ -227,29 +229,30 @@
             </thead>
 
             <tbody>
-              <?php 
-                  $Shopsname=array();
-                  if($_SESSION['begin']){
-                      
-                  }
-                  else{
-                      foreach($_SESSION['Shops'] as $keys => $value){                                     // NOTE result  -->
-                          $s=$conn->prepare("select * from shops where SID=$value");
-                          $s->execute();
-                          $shop = $s->fetch();
-                          $id = $keys+1;
-                          $shopname = $shop['shopname'];
-                          array_push($Shopsname,$shopname);
-                          $category = $shop['category'];
-                          $s=$conn->prepare("select ST_Distance_Sphere(POINT(:lon,:lat),location) from shops where SID=$value");
-                          $s->execute(array('lon' => $_SESSION['curUser']['longitude'],'lat' => $_SESSION['curUser']['latitude']  ));
-                          $dis = $s -> fetch()[0];
-                          
-                          if($dis<100){$distance='near';}
-                          elseif($dis<10000){$distance = 'medium';}
-                          else{$distance = 'far';}
-                  
-              ?>
+
+<?php 
+  $Shopsname=array();
+  if($_SESSION['begin']){   
+
+  } else {
+    foreach($_SESSION['Shops'] as $keys => $value){                                     // NOTE result  -->
+      $s=$conn->prepare("select * from shops where SID=$value");
+      $s->execute();
+      $shop = $s->fetch();
+      $id = $keys+1;
+      $shopname = $shop['shopname'];
+      array_push($Shopsname,$shopname);
+      $category = $shop['category'];
+      $s=$conn->prepare("select ST_Distance_Sphere(POINT(:lon,:lat),location) from shops where SID=$value");
+      $s->execute(array('lon' => $_SESSION['curUser']['longitude'],'lat' => $_SESSION['curUser']['latitude']  ));
+      $dis = $s -> fetch()[0];
+      
+      if($dis<100){$distance='near';}
+      elseif($dis<10000){$distance = 'medium';}
+      else{$distance = 'far';}
+  
+?>
+
               <tr>
               <th scope="row"><?php echo $id ?></th>
 
@@ -266,27 +269,23 @@
               ?>
             </tbody>
           </table>
-
-          
-
           <!-- Modal -->
-          <?php 
-              if($_SESSION['begin']){                                                   // NOTE single shop
-                      
-              }
-              else{
-              foreach($_SESSION['Shops'] as $keys => $value){
-                $s=$conn->prepare("select * from shops where SID=$value");
-                $s->execute();
-                $shop     = $s->fetch();
-                $shopname = $shop['shopname'];
-                $SID      = $value;
+<?php 
+  if($_SESSION['begin']){   
+                                                       
+  } else {
+  foreach($_SESSION['Shops'] as $keys => $value){
+    $s=$conn->prepare("select * from shops where SID=$value");
+    $s->execute();
+    $shop     = $s->fetch();
+    $shopname = $shop['shopname'];
+    $SID      = $value;
 
-                $s=$conn->prepare("select ST_Distance_Sphere(POINT(:lon,:lat),location) from shops where SID=$SID");
-                $s->execute(array('lon' => $_SESSION['curUser']['longitude'],'lat' => $_SESSION['curUser']['latitude']  ));
-                $dis = $s -> fetch()[0];
+    $s=$conn->prepare("select ST_Distance_Sphere(POINT(:lon,:lat),location) from shops where SID=$SID");
+    $s->execute(array('lon' => $_SESSION['curUser']['longitude'],'lat' => $_SESSION['curUser']['latitude']  ));
+    $dis = $s -> fetch()[0];
+?>
 
-          ?>
           <script>
              
             var cart<?=$SID;?> = new Map()
@@ -319,33 +318,34 @@
                   
                           <tbody>
 
-                              <?php
-                                  $s=$conn->prepare("select * from products where SID=$value");
-                                  $s->execute();
-                                  
-                                  foreach($s -> fetchAll() as $keys => $product){
-                                      
-                                      $id = $keys+1;
-                                      $PID = $product['PID'];
+<?php
+  $s=$conn->prepare("select * from products where SID=$value");
+  $s->execute();
+  
+  foreach($s -> fetchAll() as $keys => $product){
+      
+    $id = $keys+1;
+    $PID = $product['PID'];
 
-                                      $sql="select * FROM productimage WHERE PID=$PID";   //ggmow : fetch img from sql
-                                      $result = $conn->query($sql);                                                                                    
-                                      $productName = $product['productName'];
-                                      $price = $product['price'];
-                                      $quantity	 = $product['quantity'];                                                          
-                              ?>                           
+    $sql="select * FROM productimage WHERE PID=$PID";   //ggmow : fetch img from sql
+    $result = $conn->query($sql);                                                                                    
+    $productName = $product['productName'];
+    $price = $product['price'];
+    $quantity	 = $product['quantity'];                                                          
+?>               
+
                               <tr>
                                 <th scope="row"><?php echo $id;?></th>
 
                                 <td>
-                                    <?php 
-                                        if ($result->rowCount()>0) {
-                                            $row = $result->fetch();
-                                            $img=$row['image'];
-                                            $logodata = $img;
-                                            echo '<img  width="50" height="40" src="data:'.$row['imgType'].';base64,' . $logodata . '" />';  
-                                        }
-                                    ?>
+<?php 
+  if ($result->rowCount()>0) {
+    $row = $result->fetch();
+    $img=$row['image'];
+    $logodata = $img;
+    echo '<img  width="50" height="40" src="data:'.$row['imgType'].';base64,' . $logodata . '" />';  
+  }
+?>
                                 </td>
 
                                 <td>                      <?php echo $productName;?> </td>  
@@ -361,7 +361,6 @@
 
                               <script>
                                   
-                                 
                                 $("#minus<?=$PID;?>").click( ()=>{
 
                                   let k           = parseInt($("#quantity<?=$PID;?>").html());  
@@ -381,8 +380,6 @@
                                   $("#quantity<?=$PID;?>").html(v.toString())
                                   $("#Subtotal<?=$SID;?>").html(newSubtotal.toString())
 
-                                  
-
                                 })
 
                                 $("#plus<?=$PID;?>").click( ()=>{
@@ -394,6 +391,7 @@
 
                                   if (!cart<?=$SID;?>.has(<?=$PID;?>)) {
                                     cart<?=$SID;?>.set(<?=$PID;?>,1)
+
                                   } else {
                                     cart<?=$SID;?>.set(<?=$PID;?>,cart<?=$SID;?>.get(<?=$PID;?>) + 1)
                                   }
@@ -403,15 +401,14 @@
                                   
                                   $("#quantity<?=$PID;?>").html(v.toString())
                                   $("#Subtotal<?=$SID;?>").html(newSubtotal.toString())             
-                                  
-                                
+                                                                 
                                 })
                                   
-                              </script>
-                              
-                              <?php
-                                  }
-                              ?>
+                              </script> 
+
+<?php
+  }
+?>
 
                           </tbody>
                         </table>
@@ -424,7 +421,7 @@
 
                     <div style="display:inline" class="custom-control custom-radio custom-control-inline">
                       <input type="radio" class="custom-control-input" name="fuckB"id="Delivery<?=$SID;?>"  class="defaultDeli" checked>
-                      <label class="custom-control-label" for="Delivery<?=$SID;?>" >Delivery</label>
+                      <label class="custom-control-label"  for="Delivery<?=$SID;?>" >Delivery</label>
                     </div>
 
                     <!-- Default inline 2-->
@@ -456,7 +453,24 @@
 
                       $(".defaultDeli").prop('checked', true)
                       $("#back<?=$SID;?>").hide()
-                      $("#CalPriceBtn<?=$SID;?>").on('click', ()=>{
+
+                      $("#back<?=$SID;?>").on('click', () => {
+
+                        $(".plus<?=$SID;?>").show()
+                        $(".minus<?=$SID;?>").show()
+                        $("#orderQ<?=$SID?>").html("order")
+                        $("#back<?=$SID;?>").hide()
+
+                        $(".fucker1<?=$SID;?>").html("")  
+                        $(".fucker2<?=$SID;?>").html("")  
+                        $(".fucker3<?=$SID;?>").html("")
+                        $(".fucker4<?=$SID;?>").html("")
+
+                        $("#CalPriceBtn<?=$SID;?>").html("calculate the price")
+                      })
+
+
+                      $("#CalPriceBtn<?=$SID;?>").on('click', () => {
 
                         let total = parseInt($("#Subtotal<?=$SID;?>").html())
                         let orderType = 1
@@ -475,7 +489,7 @@
                             let fee = Math.round(Math.max(<?=$dis;?> * 10,10))
                             $(".fucker2<?=$SID;?>").html(fee.toString())
                             total = total + fee
-
+                            
                           } else {
                             let orderType = 0
                           }
@@ -486,7 +500,7 @@
                         } else {
                           if (cart<?=$SID;?>.size === 0) {
                             alert("You had ordered nothing!")
-                            $("#CalPriceBtn<?=$SID;?>").html('calculate the price')
+                            $("#back<?=$SID;?>").click()
                             return
                           }
 
@@ -516,6 +530,8 @@
                             }
                           });
                         }
+                       
+
                       })
 
                     </script>
@@ -524,12 +540,10 @@
                 </div>
               </div>
           </div>
-      
-          <?php
-                  }
-              }
-          ?>
-
+<?php
+    }
+  }
+?>
         </div>
 
       </div>
