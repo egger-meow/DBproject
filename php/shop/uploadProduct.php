@@ -64,16 +64,20 @@ try {
       $s=$conn->prepare("select count(*) from products");
       $s->execute();
   
-      if($s->fetch()[0]!=0){
+      if ($s->fetch()[0]!=0) {
         $s=$conn->prepare("select max(PID) from products");
         $s->execute();
         $PID = (string)((int)$s ->fetch()[0]);
         $dummyPID = $PID+1;
 
-        $stmt=$conn->prepare("delete from products where price = -1");
+        $stmt=$conn->prepare("select * from products where price = -1");
         $stmt->execute();
-      }  
 
+        if ($stmt->rowCount() != 0) {
+          $stmt=$conn->prepare("delete from products where price = -1");
+          $stmt->execute();
+        } 
+      }  
       
 
       $stmt=$conn->prepare("insert into products values ($PID, $SID ,'$productName' ,$price ,$quantity);");       

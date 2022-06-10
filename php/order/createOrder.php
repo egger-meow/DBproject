@@ -78,8 +78,7 @@ require "../shit/dbConnect.php";
             $stmt->execute();
 
             $stmt=$conn->prepare("update products set quantity = quantity - $quantity where SID = $SID;");
-            $stmt->execute();
-            
+            $stmt->execute();            
           }
         }
 
