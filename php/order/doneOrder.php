@@ -13,7 +13,7 @@ $OID = $_POST['OID'];
 
   try{
 
-    $stmt=$conn->prepare("update orders set orderStatus='done', timeOrderEnded='$timeOrderEnded' where OID=$OID;");
+    $stmt=$conn->prepare("update orders set orderStatus='Finished', timeOrderEnded='$timeOrderEnded' where OID=$OID;");
     $stmt->execute();
 
     echo <<<EOT

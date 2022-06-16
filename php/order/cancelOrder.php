@@ -64,6 +64,10 @@ $OID = $_POST['OID'];
     if($_SESSION['curUser']['UID'] == $UID) {
       $_SESSION['curUser']['balance']  += $return_money;
     }
+    if(isset($_POST['s'])){
+      exit();
+    }
+    
     echo <<<EOT
         <!DOCTYPE html>
         <html>

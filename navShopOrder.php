@@ -16,6 +16,7 @@
       window.location.replace('navShop.php');
       
   }
+  var selectedOrders = new Set();
 </script>
   
  <?php 
@@ -62,29 +63,38 @@
     <li><a href="navMyOrder.php">My Order</a></li>
     <li><a href="navTranRecord.php">Transaction Record</a></li>
   </ul>
-
+  
   <div class="tab-content">   
     
     <div id="menu1" class="tab-pane fade in active">
     
-      <div class="row">
+      <div class="row ">
         <hr>
         <label class="control-label col-sm-1" for="distance">Status</label>
         <div class="col-sm-5">  
         <form action="navMyOrder.php" id="form"  method="post" >
           <select name="aa" class="form-control" id="action">
             <option value = "All"     >All</option>
-            <option value = "done" >done</option>
-            <option value = "undone" >undone</option>
+            <option value = "Finished" >Finished</option>
+            <option value = "Not Finished" >Not Finished</option>
             <option value = "Cancel">Cancel</option>
           </select>
         </form>
         </div>
 
+        <button type="button" class="btn btn-success" id="finishS">Finish selected orders</button>
+        <button type="button" class="btn btn-danger delete" id="cancelS">Cancel selected orders</button>
+
+        <script>
+          $("#finishS").hide();
+          $("#cancelS").hide();
+        </script>
+
         <div class="  col-xs-8">
           <table class="table" style=" margin-top: 15px;"  >
             <thead>
               <tr>
+              <th scope="col"></th>
                 <th scope="col">Order ID</th>
                 <th scope="col">Status</th>
                 <th scope="col" >Start</th>
@@ -112,22 +122,27 @@
 ?> 
 
                 <tr>
+                  <td><input class="form-check-input" type="checkbox" value="" id="select<?=$value['OID']?>"></td>
                   <td><?=$value['OID']?></td> 
                   <td><?=$value['orderStatus']?></td> 
                   <td nowrap="nowrap"><?=$value['timeOrderCreated']?></td>
-                  <td nowrap="nowrap"><?=$value['orderStatus']=="undone"?"":$value['timeOrderEnded']?></td>
+                  <td nowrap="nowrap"><?=$value['orderStatus']=="Not Finished"?"":$value['timeOrderEnded']?></td>
                   <td><?=$shopname?></td>
                   <td><?=$value['orderAmount']?></td>
                   <td><button type="button" class="btn btn-info" data-toggle="modal" id = "details<?=$value['OID']?>" data-target="#OID<?=$value['OID'];?>">order details</button></td>
+                  <td><button type="button" class="btn btn-success" id="Finished<?=$value['OID']?>">Finished</button></td>
                   <td><button type="button" class="btn btn-danger delete" id="cancel<?=$value['OID']?>">Cancel</button></td>
-                  <td><button type="button" class="btn btn-success" id="done<?=$value['OID']?>">Done</button></td>
                 </tr> 
     
                 <script>    
-                  if("<?php echo $value['orderStatus']?>" != "undone"){                    
+                  if("<?php echo $value['orderStatus']?>" != "Not Finished"){                    
                     $("#cancel<?=$value['OID']?>").hide();
-                    $("#done<?=$value['OID']?>").hide();
+                    $("#Finished<?=$value['OID']?>").hide();
+                    $("#select<?=$value['OID']?>").hide();
                   }
+
+                  
+
                 </script>
 <?php
   }
@@ -242,8 +257,8 @@
                   $("#www").html(data);
                   });        
                });
-               $("#done<?=$value['OID']?>").click( function() {           
-                $.post("php/order/doneOrder.php",{OID : <?=$value['OID']?>} ,function(data,status){
+               $("#Finished<?=$value['OID']?>").click( function() {           
+                $.post("php/order/FinishedOrder.php",{OID : <?=$value['OID']?>} ,function(data,status){
                   $("#www").html(data);
                   });        
                });
@@ -280,6 +295,69 @@
     });
 
   });
+
+  $(document).ready(function() {
+    $('input[type="checkbox"]').click ( function (){
+      let id = parseInt($(this).attr('id').substring(6))
+  
+      if ($(this).prop("checked")) {
+        if (selectedOrders.size === 0) {
+          $("#finishS").show();
+          $("#cancelS").show();
+        }
+        selectedOrders.add(id)
+
+      } else {
+        selectedOrders.delete(id)
+
+        if (selectedOrders.size === 0) {
+          $("#finishS").hide();
+          $("#cancelS").hide();
+        }
+      }
+    });
+  });
+
+  $(document).ready(function() {
+    $('#cancelS').click ( function (){
+      selectedOrders.forEach( function(OID) {
+        $.ajax({
+          url: 'php/order/cancelOrder.php',
+          type: 'post',
+          data: {
+            'OID':OID,
+            's':1
+          },
+          success: function(data) {
+            
+          }
+        });
+      });
+      alert("cancel success!" )
+      window.location.reload()
+    });
+  });
+
+  $(document).ready(function() {
+    $('#finishS').click ( function (){
+      selectedOrders.forEach( function(OID) {
+        $.ajax({
+          url: 'php/order/doneOrder.php',
+          type: 'post',
+          data: {
+            'OID':OID,
+            's':1
+          },
+          success: function(data) {
+          }
+        });
+      });
+      alert("finish success!" )
+      window.location.reload()
+    });
+  });
+
+
 </script>
 
 <?php require "php/shit/foot.php"; ?>

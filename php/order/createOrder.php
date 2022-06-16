@@ -24,7 +24,7 @@ require "../shit/dbConnect.php";
 
     $SID = $cart[-1] ;
     $UID = $_SESSION['curUser']['UID'];
-    $orderStatus = "undone";
+    $orderStatus = "Not Finished";
 
     $timeZone         = new DateTimeZone('Asia/Taipei');
     $currentDate      = new DateTime('now',$timeZone);

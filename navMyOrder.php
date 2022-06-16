@@ -24,7 +24,9 @@
     $action="where orderStatus='$status' and UID=$UID";
   }
 ?>
-
+<script>
+  var selectedOrders = new Set();
+</script>
 <nav class="navbar navbar-inverse">
 <div class="container-fluid">
   <div class="navbar-header ">
@@ -65,17 +67,24 @@
         <form action="navMyOrder.php" id="form"  method="post" >
           <select name="aa" class="form-control" id="action">
             <option value = "All"     >All</option>
-            <option value = "done" >done</option>
-            <option value = "undone" >undone</option>
+            <option value = "Finished" >Finished</option>
+            <option value = "Not Finished" >Not Finished</option>
             <option value = "Cancel">Cancel</option>
           </select>
         </form>
         </div>
 
+        <button type="button" class="btn btn-danger delete" id="cancelS">Cancel selected orders</button>
+        
+        <script>
+          $("#cancelS").hide();
+        </script>
+
         <div class="  col-xs-8">
           <table class="table" style=" margin-top: 15px;">
             <thead>
               <tr>
+                <th scope="col"></th>
                 <th scope="col" nowrap="nowrap">Order ID</th>
                 <th scope="col">Status</th>
                 <th scope="col">Start</th>
@@ -102,10 +111,11 @@
   
 ?> 
               <tr>
+                <td><input class="form-check-input" type="checkbox" value="" id="select<?=$value['OID']?>"></td>
                 <td><?=$value['OID']?></td> 
                 <td><?=$value['orderStatus']?></td> 
                 <td nowrap="nowrap"><?=$value['timeOrderCreated']?></td>
-                <td nowrap="nowrap"><?=$value['orderStatus']=="undone"?"":$value['timeOrderEnded']?></td>
+                <td nowrap="nowrap"><?=$value['orderStatus']=="Not Finished"?"":$value['timeOrderEnded']?></td>
                 <td><?=$shopname?></td>
                 <td><?=$value['orderAmount']?></td>
                 <td><button type="button" class="btn btn-info" data-toggle="modal" id = "details<?=$value['OID']?>" data-target="#OID<?=$value['OID'];?>">order details</button></td>
@@ -113,8 +123,9 @@
               </tr> 
 
               <script>
-                if("<?php echo $value['orderStatus']?>"!="undone"){
+                if("<?php echo $value['orderStatus']?>"!="Not Finished"){
                   $("#cancel<?=$value['OID']?>").hide();
+                  $("#select<?=$value['OID']?>").hide();
                 }
               </script>
 <?php
@@ -262,6 +273,45 @@
       $( "#form " ).submit();
     });
 
+  });
+
+  $(document).ready(function() {
+    $('input[type="checkbox"]').click ( function (){
+      let id = parseInt($(this).attr('id').substring(6))
+  
+      if ($(this).prop("checked")) {
+        if (selectedOrders.size === 0) {
+          $("#cancelS").show();
+        }
+        selectedOrders.add(id)
+
+      } else {
+        selectedOrders.delete(id)
+
+        if (selectedOrders.size === 0) {
+          $("#cancelS").hide();
+        }
+      }
+    });
+  });
+
+  $(document).ready(function() {
+    $('#cancelS').click ( function (){
+      selectedOrders.forEach( function(OID) {
+        $.ajax({
+          url: 'php/order/cancelOrder.php',
+          type: 'post',
+          data: {
+            'OID':OID,
+            's':1
+          },
+          success: function(data) {
+          }
+        });
+      });
+      alert("cancel success!" )
+      window.location.reload()
+    });
   });
 </script>
 <?php require "php/shit/foot.php"; ?>
