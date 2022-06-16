@@ -124,7 +124,7 @@
       </div>
 
       <script>
-
+      $(document).ready(function() {
         $("#addMoneySubmit").submit( (event)=>{
           event.preventDefault()
           
@@ -132,16 +132,17 @@
               url: 'php/transaction/createTransaction.php',
               type: 'post',
               data: {
-                'UID':<?=$_SESSION['curUser']['UID'];?>,
+                'ID':<?=$_SESSION['curUser']['UID'];?>,
                 'TransactionAmount':parseInt($("#advalue").val()),
                 'TransactionType': 'recharge',
+                'isShop': 0
               },
               success: function(data) {
+                
+                 let response = JSON.parse(data)
 
-                let response = JSON.parse(data)
-
-                if(response.ok) {
-                  alert("add value success!")
+               if(response.ok) {
+                   alert("add value success!")
                   window.location.reload();
 
                 } else {
@@ -151,6 +152,7 @@
               }
             });
 
+          })
         })
 
       </script>
@@ -528,6 +530,7 @@
                                 alert(response.msg)
                               }
                             }
+                            
                           });
                         }
                        

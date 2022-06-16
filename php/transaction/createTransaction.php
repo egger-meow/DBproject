@@ -7,14 +7,16 @@ $ok = true;
 
 $msg = "";
 
-if (!isset($_POST['UID']) ||
+if (!isset($_POST['ID']) ||
     !isset($_POST['TransactionAmount']) ||
-    !isset($_POST['TransactionType'])   // recharge payment receive 
+    !isset($_POST['TransactionType'])  || // recharge payment receive 
+    !isset($_POST['isShop'])
     ) { exit(); }
-
-$UID               = $_POST['UID'];
+    
+$UID               = $_POST['ID'];
 $TransactionAmount = $_POST['TransactionAmount'];
 $TransactionType   = $_POST['TransactionType']; 
+$isShop   = $_POST['isShop']; 
 
 $timeZone      = new DateTimeZone('Asia/Taipei');
 $currentDate   = new DateTime('now',$timeZone);
@@ -23,6 +25,13 @@ $timeTransactionCreated = $currentDate->format('Y-m-d H:i:s');
   $conn -> beginTransaction();
   try{
     try{
+      if ($isShop) {
+        $stmt=$conn->prepare("select UID from shops where SID = $UID;");
+        $stmt->execute();
+
+        $UID = $stmt->fetch()[0];
+      }
+
       if ($TransactionType == 'payment'){
         $stmt=$conn->prepare("select balance from users where UID = $UID;");
         $stmt->execute();
@@ -57,7 +66,7 @@ $timeTransactionCreated = $currentDate->format('Y-m-d H:i:s');
         $TID = $s ->fetch()[0] + 1;
       }  
 
-      $stmt=$conn->prepare("insert into transactions values ($TID, $UID, $TransactionAmount, '$timeTransactionCreated', '$TransactionType');  ");
+      $stmt=$conn->prepare("insert into transactions values ($TID, $UID, $TransactionAmount, '$timeTransactionCreated', '$TransactionType', $isShop );  ");
       $stmt->execute();
 
     } catch (PDOException $e) {

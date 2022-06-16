@@ -101,8 +101,7 @@ require "../shit/dbConnect.php";
         $stmt=$conn->prepare("update users set balance = balance - $amount where UID = $UID;");
         $stmt->execute();
 
-        $stmt=$conn->prepare("update users set balance = balance + $amount where UID = $SUID;");
-        $stmt->execute();
+        
 
         $TID = 0;
         $s=$conn->prepare("select count(*) from transactions");
@@ -114,12 +113,12 @@ require "../shit/dbConnect.php";
           $TID = $s ->fetch()[0] + 1;
         }  
 
-        $stmt=$conn->prepare("insert into transactions values ($TID, $UID, $amount, '$timeOrderCreated', 'payment');  ");
+        $stmt=$conn->prepare("insert into transactions values ($TID, $UID, $amount, '$timeOrderCreated', 'payment', 0);  ");
         $stmt->execute();
 
         $TID++;
 
-        $stmt=$conn->prepare("insert into transactions values ($TID, $SUID, $amount, '$timeOrderCreated', 'receive');  ");
+        $stmt=$conn->prepare("insert into transactions values ($TID, $SID, $amount, '$timeOrderCreated', 'receive', 1);  ");
         $stmt->execute();
 
       } catch (PDOException $e) {

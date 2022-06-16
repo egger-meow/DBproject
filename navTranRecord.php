@@ -89,7 +89,7 @@
 
     $UID    = $tra['UID']; 
 
-    $stmt   = $tra['TransactionType'] == 'receive' ? $conn->prepare("select shopName from shops where UID = $UID;") : $conn->prepare("select account from users where UID = $UID");
+    $stmt   = $tra['isShop'] == true ? $conn->prepare("select shopName from shops where SID = $UID;") : $conn->prepare("select account from users where UID = $UID");
     $stmt -> execute();
 
     $trader = $stmt->fetch()[0];
