@@ -55,7 +55,7 @@ $OID = $_POST['OID'];
 
     $stmt=$conn->prepare("insert into transactions values ($TID, $UID, $return_money, '$timeOrderEnded', 'receive', 0);  ");
     $stmt->execute();
-
+    return_money
     echo <<<EOT
         <!DOCTYPE html>
         <html>

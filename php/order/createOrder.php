@@ -96,30 +96,7 @@ require "../shit/dbConnect.php";
 
         if($amount > $stmt->fetch()[0]){
           throw new Exception("lack in balance");
-        }
-
-        $stmt=$conn->prepare("update users set balance = balance - $amount where UID = $UID;");
-        $stmt->execute();
-
-        
-
-        $TID = 0;
-        $s=$conn->prepare("select count(*) from transactions");
-        $s->execute();
-
-        if($s->fetch()[0]!=0){
-          $s=$conn->prepare("select max(TID) from transactions");
-          $s->execute();
-          $TID = $s ->fetch()[0] + 1;
-        }  
-
-        $stmt=$conn->prepare("insert into transactions values ($TID, $UID, $amount, '$timeOrderCreated', 'payment', 0);  ");
-        $stmt->execute();
-
-        $TID++;
-
-        $stmt=$conn->prepare("insert into transactions values ($TID, $SID, $amount, '$timeOrderCreated', 'receive', 1);  ");
-        $stmt->execute();
+        }        
 
       } catch (PDOException $e) {
         throw new Exception($e->getMessage());

@@ -520,9 +520,46 @@
                             type: 'post',
                             data: {cart:json},
                             success: function(data) {
-                              let response = JSON.parse(data)
 
+                              let response = JSON.parse(data)
                               if(response.ok) {
+
+                                $.ajax({
+                                  url: 'php/transaction/createTransaction.php',
+                                  type: 'post',
+                                  data: {
+                                    'ID':<?=$_SESSION['curUser']['UID'];?>,
+                                    'TransactionAmount':total,
+                                    'TransactionType': 'payment',
+                                    'isShop': 0
+                                  },
+                                  success: function(data) {
+                                    let response = JSON.parse(data)
+
+                                    if(!response.ok) {
+                                      alert("transaction failed! errmsg: "+response.msg)
+                                      window.location.reload();
+                                    } 
+                                  }
+                                });
+                                $.ajax({
+                                  url: 'php/transaction/createTransaction.php',
+                                  type: 'post',
+                                  data: {
+                                    'ID':<?=$SID;?>,
+                                    'TransactionAmount':total,
+                                    'TransactionType': 'receive',
+                                    'isShop': 1
+                                  },
+                                  success: function(data) {
+                                    let response = JSON.parse(data)
+
+                                    if(!response.ok) {
+                                      alert("transaction failed! errmsg: "+response.msg)
+                                      window.location.reload();
+                                    } 
+                                  }
+                                });
                                 alert("order created!")
                                 window.location.replace("navMyOrder.php")
 
@@ -530,11 +567,8 @@
                                 alert(response.msg)
                               }
                             }
-                            
                           });
                         }
-                       
-
                       })
 
                     </script>

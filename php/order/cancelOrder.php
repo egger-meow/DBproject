@@ -61,6 +61,9 @@ $OID = $_POST['OID'];
     $stmt=$conn->prepare("insert into transactions values ($TID, $UID, $return_money, '$timeOrderEnded', 'receive', 0);  ");
     $stmt->execute();
 
+    if($_SESSION['curUser']['UID'] == $UID) {
+      $_SESSION['curUser']['balance']  += $return_money;
+    }
     echo <<<EOT
         <!DOCTYPE html>
         <html>
