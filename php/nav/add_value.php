@@ -2,14 +2,9 @@
 session_start();
 $_SESSION['Authenticated']=false;
 $account=$_SESSION['curUser']['account'];
-$dbservername='localhost';
-$dbname='acdb';
-$dbusername='root';
-$dbpassword='';
+  include("../shit/dbConnect.php");
 
-$addvalue=$_POST['add_value'];
 
-$conn = new PDO('mysql:host=localhost;dbname=acdb', $dbusername, $dbpassword);
 # set the PDO error mode to exception
   $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   $stmt=$conn->prepare("select balance from users where account='$account'");

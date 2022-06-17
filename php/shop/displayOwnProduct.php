@@ -1,16 +1,6 @@
 <?php
 
-$dbservername='localhost';
-$dbname='acdb';
-$dbusername='jonhou1203';
-$dbpassword='pass9704';
-//session_start();
-  $conn = new PDO("mysql:host=$dbservername; dbname=$dbname", 
-  $dbusername, $dbpassword);
-   # set the PDO error mode to exception
-  $conn->setAttribute(PDO::ATTR_ERRMODE, 
-  PDO::ERRMODE_EXCEPTION);
-
+  include("../shit/dbConnect.php");
   try{
     $s=$conn->prepare("select * from products where SID =:sid");
     $s->execute(array('sid' => $_SESSION['curUser']['SID']));

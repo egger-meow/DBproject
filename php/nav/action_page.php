@@ -1,13 +1,7 @@
 <?php
 
-$dbservername='localhost';
-$dbname='acdb';
-$dbusername='root';
-$dbpassword='';
-session_start();
-$conn = new PDO("mysql:host=$dbservername; dbname=$dbname", $dbusername, $dbpassword);
-# set the PDO error mode to exception
-$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+ include("../shit/dbConnect.php");
+
 
 if(empty($_POST['shopname']) && $_POST['distance']=='null' && empty($_POST['min_price']) 
     && empty($_POST['max_price']) && empty($_POST['meal']) && empty($_POST['category']) )
