@@ -6,7 +6,7 @@ $account=$_SESSION['curUser']['account'];
 
 
 # set the PDO error mode to exception
-  $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  
   $stmt=$conn->prepare("select balance from users where account='$account'");
   $stmt->execute();
   $balance=$stmt->fetch()[0];

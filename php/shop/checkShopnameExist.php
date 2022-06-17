@@ -1,10 +1,7 @@
 <?php
 session_start();
 
-$dbservername='localhost';
-$dbname='acdb';
-$dbusername='root';
-$dbpassword='';
+include("../shit/dbConnect.php");;
 
 $ok = true;
 $msg = "";
@@ -16,10 +13,7 @@ $msg = "";
     $shopname = $_REQUEST['shopname'];
    
     try{
-        $conn = new PDO("mysql:host=$dbservername;dbname=$dbname", $dbusername, $dbpassword);
-        # set the PDO error mode to exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        
+       
         //* 店名可不可重複
         $stmt=$conn->prepare("select shopname from shops where shopname=:acc");
         $stmt->execute(array('acc' => $shopname));

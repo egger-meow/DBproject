@@ -1,19 +1,12 @@
 <?php
 
-$dbservername='localhost';
-$dbname='acdb';
-$dbusername='jonhou1203';
-$dbpassword='pass9704';
+include("../shit/dbConnect.php");
 session_start();
 
 $productName = $_REQUEST['productName'] ;
 $price       = $_REQUEST['price'] ;
 $quantity    = $_REQUEST['quantity'] ;
-  $conn = new PDO("mysql:host=$dbservername; dbname=$dbname", 
-  $dbusername, $dbpassword);
-  # set the PDO error mode to exception
-  $conn->setAttribute(PDO::ATTR_ERRMODE, 
-  PDO::ERRMODE_EXCEPTION);
+ 
   try{
     $stmt=$conn->prepare("select SID from shops where UID=:user");
     $stmt->execute(array('user' => $_SESSION['curUser']['UID']));

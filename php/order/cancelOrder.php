@@ -74,7 +74,7 @@ $OID = $_POST['OID'];
         <body> 
         <script>
         alert("cancel success!" )
-        window.location.replace("navMyorder.php")
+        window.location.reload()
         </script> </body> </html>
     EOT;
     exit();
@@ -88,7 +88,7 @@ $OID = $_POST['OID'];
         <body>
         <script>
         alert("$msg")
-        window.location.replace("navMyorder.php")
+        window.location.reload()
         </script> </body> </html>
     EOT;
  
