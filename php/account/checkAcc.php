@@ -1,10 +1,5 @@
 <?php
-
-$dbservername='localhost';
-$dbname='acdb';
-$dbusername='jonhou1203';
-$dbpassword='pass9704';
-
+ include("../shit/dbConnect.php");
 
 $msg = "";
 
@@ -14,13 +9,6 @@ try {
     $account   = $_REQUEST['acc'] ;
 
 
- 
-    
-    $conn = new PDO("mysql:host=$dbservername;dbname=$dbname", 
-    $dbusername, $dbpassword);
-    # set the PDO error mode to exception
-    $conn->setAttribute(PDO::ATTR_ERRMODE, 
-    PDO::ERRMODE_EXCEPTION);
     $stmt=$conn->prepare("select username from users where account=:acc");
     $stmt->execute(array('acc' => $account));
     if ($stmt->rowCount()!=0){
