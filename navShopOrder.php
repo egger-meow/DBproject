@@ -258,7 +258,7 @@
                   });        
                });
                $("#Finished<?=$value['OID']?>").click( function() {           
-                $.post("php/order/FinishedOrder.php",{OID : <?=$value['OID']?>} ,function(data,status){
+                $.post("php/order/doneOrder.php",{OID : <?=$value['OID']?>} ,function(data,status){
                   $("#www").html(data);
                   });        
                });
