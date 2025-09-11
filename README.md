@@ -59,7 +59,7 @@ This project is a sophisticated food ordering system developed as a comprehensiv
 - **MySQL 8.0+** - Database with spatial extensions
 - **PDO** - Secure database connections with prepared statements
 - **Session-based Authentication** - Secure user state management
-f dgf
+
 ### **Frontend Stack**
 - **HTML5/CSS3** - Semantic markup and modern styling
 - **Bootstrap 4** - Responsive grid system and components
